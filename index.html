@@ -16,32 +16,15 @@
     
     <style>
         :root {
-            --un-blue: #1e3a5f;
-            --deep-blue: #0a1a2e;
-            --gold: #d4af37;
-            --gold-light: #f0d060;
-            --gold-pale: rgba(212, 175, 55, 0.15);
-            --usdt-green: #2ea876;
-            --usdt-green-light: #5ddbae;
-            --card-bg: rgba(255, 255, 255, 0.035);
-            --card-border: rgba(212, 175, 55, 0.12);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.68);
-            --text-muted: rgba(255, 255, 255, 0.42);
-            --danger: #f87171;
-            --danger-bg: rgba(239, 68, 68, 0.1);
-            --success-bg: rgba(46, 168, 118, 0.12);
-            --warning-bg: rgba(240, 160, 64, 0.1);
-            --info-bg: rgba(0, 158, 219, 0.1);
-            --font-main: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --radius-full: 9999px;
-            --shadow-gold: 0 6px 24px rgba(212, 175, 55, 0.25);
-            --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
+            --un-blue: #1e3a5f; --deep-blue: #0a1a2e; --gold: #d4af37; --gold-light: #f0d060;
+            --usdt-green: #2ea876; --usdt-green-light: #5ddbae;
+            --card-bg: rgba(255, 255, 255, 0.035); --card-border: rgba(212, 175, 55, 0.12);
+            --text-primary: #ffffff; --text-secondary: rgba(255, 255, 255, 0.68);
+            --text-muted: rgba(255, 255, 255, 0.42); --danger: #f87171;
+            --font-main: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', monospace;
+            --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px; --radius-xl: 28px; --radius-full: 9999px;
+            --shadow-gold: 0 6px 24px rgba(212, 175, 55, 0.25); --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
             --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -55,11 +38,8 @@
                 radial-gradient(ellipse at 25% 20%, rgba(30, 58, 95, 0.55) 0%, transparent 60%),
                 radial-gradient(ellipse at 75% 70%, rgba(212, 175, 55, 0.06) 0%, transparent 55%),
                 radial-gradient(ellipse at 50% 100%, rgba(46, 168, 118, 0.05) 0%, transparent 50%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--text-primary); min-height: 100vh; line-height: 1.65;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
         }
 
         .bg-grid {
@@ -83,11 +63,10 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
         }
         .nav-link {
-            padding: 9px 20px; border-radius: var(--radius-full);
-            font-size: 13px; font-weight: 500; color: var(--text-secondary);
-            text-decoration: none; letter-spacing: 0.3px; transition: var(--transition);
-            white-space: nowrap; border: 1px solid transparent;
-            cursor: pointer; background: none; font-family: inherit;
+            padding: 9px 20px; border-radius: var(--radius-full); font-size: 13px;
+            font-weight: 500; color: var(--text-secondary); text-decoration: none;
+            letter-spacing: 0.3px; transition: var(--transition); white-space: nowrap;
+            border: 1px solid transparent; cursor: pointer; background: none; font-family: inherit;
         }
         .nav-link:hover { color: var(--gold-light); background: rgba(212, 175, 55, 0.07); }
         .nav-link.active { color: var(--gold-light); background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.3); font-weight: 600; }
@@ -118,6 +97,7 @@
             animation: gentleGlow 3s ease-in-out infinite;
         }
         @keyframes gentleGlow { 0%, 100% { text-shadow: 0 2px 16px rgba(212, 175, 55, 0.3); } 50% { text-shadow: 0 2px 28px rgba(212, 175, 55, 0.55); } }
+
         .amount-giant { font-size: clamp(50px, 11vw, 72px); font-weight: 800; color: var(--usdt-green); text-align: center; letter-spacing: -1.5px; line-height: 1; }
         .text-body { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
         .text-small { font-size: 12px; color: var(--text-secondary); }
@@ -129,9 +109,8 @@
         .un-badge {
             display: inline-flex; align-items: center; gap: 7px;
             background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25);
-            padding: 7px 20px; border-radius: var(--radius-full);
-            font-size: 10.5px; font-weight: 600; color: var(--gold-light);
-            letter-spacing: 1.2px; text-transform: uppercase;
+            padding: 7px 20px; border-radius: var(--radius-full); font-size: 10.5px;
+            font-weight: 600; color: var(--gold-light); letter-spacing: 1.2px; text-transform: uppercase;
         }
         .laurel-line {
             display: flex; align-items: center; justify-content: center;
@@ -142,11 +121,9 @@
 
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 100%; padding: 15px 24px; border: none;
-            border-radius: var(--radius-xl); font-size: 14.5px;
-            font-weight: 600; cursor: pointer; transition: var(--transition);
-            letter-spacing: 0.3px; text-transform: uppercase;
-            font-family: inherit; gap: 8px; text-decoration: none;
+            width: 100%; padding: 15px 24px; border: none; border-radius: var(--radius-xl);
+            font-size: 14.5px; font-weight: 600; cursor: pointer; transition: var(--transition);
+            letter-spacing: 0.3px; text-transform: uppercase; font-family: inherit; gap: 8px; text-decoration: none;
         }
         .btn:active { transform: scale(0.975); }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; filter: none; }
@@ -157,15 +134,25 @@
         .btn:hover:not(:disabled) { filter: brightness(1.1); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35); transform: translateY(-1px); }
         .btn-outline:hover:not(:disabled) { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
 
-        .input-field { width: 100%; padding: 13px 16px; border-radius: var(--radius-md); border: 1.5px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.3); color: var(--text-primary); font-size: 14.5px; transition: var(--transition); font-family: inherit; }
+        .input-field {
+            width: 100%; padding: 13px 16px; border-radius: var(--radius-md);
+            border: 1.5px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.3);
+            color: var(--text-primary); font-size: 14.5px; transition: var(--transition); font-family: inherit;
+        }
         .input-field:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.06); }
         .input-field::placeholder { color: rgba(255, 255, 255, 0.22); }
         .input-code { font-family: var(--font-mono); letter-spacing: 3px; text-align: center; font-size: 17px; text-transform: uppercase; }
         .input-pin { font-family: var(--font-mono); letter-spacing: 8px; text-align: center; font-size: 22px; max-width: 140px; }
-        select.input-field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer; }
+        select.input-field {
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+            padding-right: 40px; cursor: pointer;
+        }
         select.input-field option { background: #132030; color: #fff; }
 
         .form-label { display: block; font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.6px; }
+
         .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 600; }
         .status-ready { background: rgba(46, 168, 118, 0.15); color: var(--usdt-green-light); }
         .status-pending { background: rgba(240, 160, 64, 0.12); color: #f0a040; }
@@ -198,10 +185,10 @@
 
         .alert { padding: 12px 16px; border-radius: var(--radius-md); margin: 12px 0; font-size: 13px; font-weight: 500; text-align: center; line-height: 1.5; animation: alertIn 0.3s ease; }
         @keyframes alertIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-        .alert-success { background: var(--success-bg); border: 1px solid rgba(46, 168, 118, 0.2); color: var(--usdt-green-light); }
-        .alert-error { background: var(--danger-bg); border: 1px solid rgba(239, 68, 68, 0.18); color: var(--danger); }
-        .alert-warning { background: var(--warning-bg); border: 1px solid rgba(240, 160, 64, 0.2); color: #f0a040; }
-        .alert-info { background: var(--info-bg); border: 1px solid rgba(0, 158, 219, 0.16); color: #7cc8f0; }
+        .alert-success { background: rgba(46, 168, 118, 0.12); border: 1px solid rgba(46, 168, 118, 0.2); color: var(--usdt-green-light); }
+        .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.18); color: var(--danger); }
+        .alert-warning { background: rgba(240, 160, 64, 0.1); border: 1px solid rgba(240, 160, 64, 0.2); color: #f0a040; }
+        .alert-info { background: rgba(0, 158, 219, 0.1); border: 1px solid rgba(0, 158, 219, 0.16); color: #7cc8f0; }
 
         .chatbot-fab { position: fixed; bottom: 22px; right: 22px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #d4af37, #b8942e); color: #0a1a2e; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35); z-index: 200; transition: var(--transition); border: none; animation: floatBob 2.5s ease-in-out infinite; position: relative; }
         .chatbot-fab::after { content: ''; position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #0a1a2e; animation: dotPulse 1.8s ease-in-out infinite; z-index: 201; }
@@ -271,17 +258,88 @@
                 <p class="text-small mt-6">World Data Internet User Recognition Voucher</p>
             </div>
             <div class="card card-accent"><p class="text-body"><strong>✨ Claiming is entirely free for you.</strong> All blockchain network fees are covered by the program. Your wallet can hold $0.00.</p></div>
-            <div id="connectSection"><button class="btn btn-gold mt-12" onclick="connectWallet()">Connect Wallet to Begin</button><p class="text-caption text-center mt-8">MetaMask • Trust Wallet • SafePal • Any BSC Wallet</p></div>
+
+            <!-- Connect Wallet -->
+            <div id="connectSection">
+                <button class="btn btn-gold mt-12" onclick="connectWallet()">🔌&nbsp;Connect Wallet</button>
+                <p class="text-caption text-center mt-8">MetaMask • Trust Wallet • SafePal • Any BSC Wallet</p>
+            </div>
+
+            <!-- Claim Form (hidden until connected) -->
             <div id="claimSection" class="hidden">
-                <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;"><span class="text-small">Connected Wallet</span><span class="mono-text" id="walletDisplay"></span></div><div class="mt-8"><span class="status-pill status-ready" id="claimStatusBadge"><span class="status-dot ready"></span> Ready to Claim</span></div></div>
-                <div class="mt-14"><label class="form-label">Your Unique Claim Code</label><input type="text" class="input-field input-code" id="claimCodeInput" placeholder="WD-XXXX-XXXX-XXXX" maxlength="17" autocomplete="off" spellcheck="false"><p class="text-caption mt-6">This code was sent directly to you. It is unique and valid for one use only.</p></div>
+                <div class="card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                        <span class="text-small">Connected Wallet</span>
+                        <span class="mono-text" id="walletDisplay"></span>
+                    </div>
+                    <div class="mt-8">
+                        <span class="status-pill status-ready" id="claimStatusBadge"><span class="status-dot ready"></span> Ready to Claim</span>
+                    </div>
+                </div>
+
+                <div class="mt-14">
+                    <label class="form-label">Your Unique Claim Code</label>
+                    <input type="text" class="input-field input-code" id="claimCodeInput" placeholder="WD-XXXX-XXXX-XXXX" maxlength="17" autocomplete="off" spellcheck="false">
+                    <p class="text-caption mt-6">This code was sent directly to you. It is unique and valid for one use only.</p>
+                </div>
+
                 <button class="btn btn-green mt-12" id="claimBtn" onclick="submitClaim()">Accept This Recognition</button>
-                <p class="text-caption text-center mt-8">✅ Zero gas &nbsp;•&nbsp; Instant transfer &nbsp;•&nbsp; No BNB required</p>
-                <div class="card mt-20 hidden" id="postClaimCard"><p class="text-small text-center">Redemption available in</p><div class="countdown-timer mt-8" id="claimCountdown">24:00:00</div><p class="text-center mt-10"><a href="#redeem" onclick="navigate('redeem')" style="color:var(--gold-light);text-decoration:none;font-weight:600;font-size:13px;" id="redeemLinkInline" class="hidden">Proceed to Documentation →</a></p></div>
+
+                <div class="card mt-20 hidden" id="postClaimCard">
+                    <p class="text-small text-center">Redemption available in</p>
+                    <div class="countdown-timer mt-8" id="claimCountdown">24:00:00</div>
+                    <p class="text-center mt-10">
+                        <a href="#redeem" onclick="navigate('redeem')" style="color:var(--gold-light);text-decoration:none;font-weight:600;font-size:13px;" id="redeemLinkInline" class="hidden">Proceed to Documentation →</a>
+                    </p>
+                </div>
                 <div id="claimAlerts"></div>
             </div>
-            <div class="card mt-16"><h3 class="heading-md text-center mb-12">📱&nbsp;How to Find Your Voucher After Claiming</h3><div class="guide-list"><div class="guide-step"><div class="guide-num">1</div><div class="guide-content"><strong>Open your wallet app</strong><br>MetaMask, Trust Wallet, SafePal, or any BSC-compatible wallet.</div></div><div class="guide-step"><div class="guide-num">2</div><div class="guide-content"><strong>Go to NFTs or Collectibles</strong><br>MetaMask: <strong>"NFTs"</strong> tab. Trust Wallet: <strong>"Collectibles"</strong>.</div></div><div class="guide-step"><div class="guide-num">3</div><div class="guide-content"><strong>Look for "World Data / Internet User Reward"</strong><br>A card with the UN emblem — displays as <strong>$10,000 USDT Voucher</strong>.</div></div><div class="guide-step"><div class="guide-num">4</div><div class="guide-content"><strong>If not visible, import manually</strong><br>Tap <strong>"Import Token"</strong> → Paste this contract address:<br><span class="mono-text" style="background:rgba(0,0,0,0.3);padding:3px 7px;border-radius:4px;" id="contractAddrDisplay">Loading...</span><br>Token ID: <strong>0</strong> → Tap Import.</div></div><div class="guide-step"><div class="guide-num">5</div><div class="guide-content"><strong>Understanding your voucher</strong><br>Shows <strong>$0.00 estimated value</strong> until redemption is activated. The real $10,000 USDT is released upon final approval.</div></div></div><p class="text-caption text-center mt-14">🔒&nbsp;Your voucher is a permanent blockchain record. It cannot be lost, altered, or duplicated.</p></div>
-            <div class="text-center mt-20" style="padding-bottom:10px;"><p class="text-caption">🔒&nbsp;Secured by Binance Smart Chain &nbsp;•&nbsp; 🌐&nbsp;UN Recognized Program</p><p class="text-caption mt-4">World Data Reward Initiative &nbsp;©&nbsp;2026</p></div>
+
+            <!-- Manual Entry -->
+            <div class="laurel-line mt-20">OR</div>
+            <div class="card mt-8" id="manualSection">
+                <h3 class="heading-md mb-8">📝&nbsp;Enter Your Wallet Address Manually</h3>
+                <p class="text-small mb-8">If you cannot connect your wallet app directly, simply paste your BSC wallet address below. The system will verify it first before proceeding.</p>
+                
+                <div id="manualStep1">
+                    <label class="form-label">Your BSC Wallet Address</label>
+                    <input type="text" class="input-field mono-text" id="manualWalletInput" placeholder="0x..." style="letter-spacing:0;">
+                    <p class="text-caption mt-6">Must be a valid BSC address starting with 0x (42 characters)</p>
+                    <button class="btn btn-outline mt-8" id="manualVerifyBtn" onclick="verifyManualWallet()">Verify Wallet & Continue</button>
+                    <div id="manualWalletMsg" class="mt-8"></div>
+                </div>
+                
+                <div id="manualStep2" class="hidden">
+                    <div id="manualWalletConfirmed" class="mb-12"></div>
+                    <label class="form-label">Your Unique Claim Code</label>
+                    <input type="text" class="input-field input-code" id="manualCodeInput" placeholder="WD-XXXX-XXXX-XXXX" maxlength="17" autocomplete="off" spellcheck="false">
+                    <p class="text-caption mt-6">The code sent directly to you</p>
+                    <button class="btn btn-green mt-8" id="manualClaimBtn" onclick="claimManual()">Send $10,000 USDT Voucher to This Wallet</button>
+                    <div id="manualClaimAlerts"></div>
+                </div>
+                
+                <div id="manualStep3" class="hidden"></div>
+            </div>
+
+            <p class="text-caption text-center mt-8">✅ Zero gas &nbsp;•&nbsp; Instant transfer &nbsp;•&nbsp; No BNB required</p>
+
+            <!-- Voucher Location Guide -->
+            <div class="card mt-16">
+                <h3 class="heading-md text-center mb-12">📱&nbsp;How to Find Your Voucher After Claiming</h3>
+                <div class="guide-list">
+                    <div class="guide-step"><div class="guide-num">1</div><div class="guide-content"><strong>Open your wallet app</strong><br>Use MetaMask, Trust Wallet, SafePal, or any BSC-compatible wallet. Don't have one? Download free from your app store.</div></div>
+                    <div class="guide-step"><div class="guide-num">2</div><div class="guide-content"><strong>Go to NFTs or Collectibles</strong><br>In MetaMask, tap the <strong>"NFTs"</strong> tab at the bottom. In Trust Wallet, go to <strong>"Collectibles"</strong>. This section holds your digital certificates.</div></div>
+                    <div class="guide-step"><div class="guide-num">3</div><div class="guide-content"><strong>Look for "World Data / Internet User Reward"</strong><br>A card with the UN emblem, globe, and USDT symbol. Displays as a <strong>$10,000 USDT Voucher</strong>.</div></div>
+                    <div class="guide-step"><div class="guide-num">4</div><div class="guide-content"><strong>If not visible, import manually</strong><br>Tap <strong>"Import Token"</strong> or <strong>"Add Custom Token"</strong> → Paste this contract address:<br><span class="mono-text" style="background:rgba(0,0,0,0.3);padding:3px 7px;border-radius:4px;" id="contractAddrDisplay">Loading...</span><br>Token ID: <strong>0</strong> → Tap Import. Done.</div></div>
+                    <div class="guide-step"><div class="guide-num">5</div><div class="guide-content"><strong>Understanding what you see</strong><br>The voucher shows <strong>$0.00 estimated value</strong> — this is normal for non-activated vouchers. The real $10,000 USDT is released upon redemption approval.</div></div>
+                </div>
+                <p class="text-caption text-center mt-14">🔒&nbsp;Your voucher is a permanent blockchain record. It cannot be lost, altered, or duplicated.</p>
+            </div>
+
+            <div class="text-center mt-20" style="padding-bottom:10px;">
+                <p class="text-caption">🔒&nbsp;Secured by Binance Smart Chain &nbsp;•&nbsp; 🌐&nbsp;UN Recognized Program</p>
+                <p class="text-caption mt-4">World Data Reward Initiative &nbsp;©&nbsp;2026</p>
+            </div>
         </div>
 
         <!-- REDEEM PAGE -->
@@ -339,115 +397,235 @@
 
     <script>
     (function() {
-        const _B = (s) => atob(s);
-        const _X = (s, k) => s.split('').map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length))).join('');
-        const _p = _B('d29ybGQtZGF0YS1yZXdhcmQ=');
-        const _fcfg = {
-            a: _B('QUl6YVN5Qkw0WFNnRmszTWd4S2NkS3ZvU3A2YlJl') + 'aGJjNWNFZDcw',
-            b: _B('d29ybGQtZGF0YS1yZXdhcmQuZmlyZWJhc2VhcHAuY29t'),
-            c: _p,
-            d: _B('d29ybGQtZGF0YS1yZXdhcmQuZmlyZWJhc2VzdG9yYWdlLmFwcA=='),
-            e: _B('NzUwMDQxNDY5MzAz'),
-            f: _B('MTo3NTAwMDQxNDY5MzAzOndlYjoxYjA1ZjhjZTAwYzhiNjk5OTc1MTcy')
-        };
-        
-        const CONTRACT_ADDRESS = _X(_B('PASTE_ENCODED_CONTRACT_HERE'), _p);
-        let verificationWallet = _X(_B('PASTE_ENCODED_VERIFY_WALLET_HERE'), _p);
-        const ADMIN_USERNAME = _X(_B('PASTE_ENCODED_USERNAME'), _p);
-        const ADMIN_PASSWORD = _X(_B('PASTE_ENCODED_PASSWORD'), _p);
-        const _pinRaw = _X(_B('PASTE_ENCODED_PIN'), _fcfg.a.slice(0,4));
-        const CODE_GEN_PIN = [..._pinRaw].map(Number);
+        const CONTRACT_ADDRESS = '0xYOUR_CONTRACT_ADDRESS_HERE';
+        let verificationWallet = '0xVERIFICATION_WALLET_HERE';
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'WorldData2026!';
+        const CODE_GEN_PIN = [4,8,2,9];
         const ADMIN_PATH_HASH = 'wdr-admin';
         window._C = CONTRACT_ADDRESS;
         
         let db = null;
-        try { firebase.initializeApp({apiKey:_fcfg.a, authDomain:_fcfg.b, projectId:_fcfg.c, storageBucket:_fcfg.d, messagingSenderId:_fcfg.e, appId:_fcfg.f}); db = firebase.firestore(); } catch(e) { db = null; }
-    
-        document.addEventListener('DOMContentLoaded', () => { const el = document.getElementById('contractAddrDisplay'); if (el) el.textContent = CONTRACT_ADDRESS; });
-    
-        const CONTRACT_ABI = ["function claimVoucher(string) external","function requestRedemption() external payable","function approveRedemption(address) external","function rejectRedemption(address,string) external","function fundSponsor() external payable","function sponsorBalance() view returns (uint256)","function setRedemptionActive(bool) external","function setRedeemFee(uint256) external","function hasVoucher(address) view returns (bool)","function canRedeem(address) view returns (bool,uint256,string)","function getVoucherInfo(address) view returns (uint256,bool,bool,uint256)","function redeemFee() view returns (uint256)","function totalClaimed() view returns (uint256)","function totalRedeemed() view returns (uint256)"];
-    
-        let provider=null,signer=null,contract=null,userAddress=null,isAdmin=false,chatbotOpen=false;
-    
-        const Store = {
-            prefix:'wdr_', _k(k){return this.prefix+k;},
+        try {
+            firebase.initializeApp({
+                apiKey: "AIzaSyBL4XSgFk3MgxKcdKvoSp6bRehcb5cEd70",
+                authDomain: "world-data-reward.firebaseapp.com",
+                projectId: "world-data-reward",
+                storageBucket: "world-data-reward.firebasestorage.app",
+                messagingSenderId: "750041469303",
+                appId: "1:750041469303:web:1b05f8ce00c8b699975172"
+            });
+            db = firebase.firestore();
+        } catch(e) { db = null; }
+
+        const CONTRACT_ABI = [
+            "function claimVoucher(string) external","function adminMint(address) external",
+            "function requestRedemption() external payable","function approveRedemption(address) external",
+            "function fundSponsor() external payable","function sponsorBalance() view returns (uint256)",
+            "function setRedemptionActive(bool) external","function setRedeemFee(uint256) external",
+            "function hasVoucher(address) view returns (bool)","function getVoucherInfo(address) view returns (uint256,bool,bool,uint256)",
+            "function redeemFee() view returns (uint256)","function totalClaimed() view returns (uint256)","function totalRedeemed() view returns (uint256)"
+        ];
+
+        let provider=null,signer=null,contract=null,userAddress=null,chatbotOpen=false;
+
+        document.addEventListener('DOMContentLoaded',()=>{
+            document.getElementById('contractAddrDisplay').textContent=CONTRACT_ADDRESS;
+            restoreSession();
+        });
+
+        const Store={
+            prefix:'wdr_',_k(k){return this.prefix+k;},
             set(k,v){try{localStorage.setItem(this._k(k),JSON.stringify(v));}catch(e){}},
             get(k){try{return JSON.parse(localStorage.getItem(this._k(k)));}catch(e){return null;}},
-            saveCodes(codes,batch){const s=this.get('codeStore')||{};codes.forEach(c=>{s[c]={batch,used:false,createdAt:Date.now(),usedBy:null,usedAt:null};});this.set('codeStore',s);if(db){try{const br=db.collection('codeBatches').doc(batch);br.set({batchName:batch,totalCodes:codes.length,generatedAt:new Date(),claimedCount:0});for(let i=0;i<codes.length;i+=400){const ch=codes.slice(i,i+400);const fb=db.batch();ch.forEach(c=>{fb.set(db.collection('claimCodes').doc(c),{code:c,batch,used:false,createdAt:new Date(),usedBy:null,usedAt:null});});fb.commit().catch(()=>{});}}catch(e){}}},
-            async useCode(code,wallet){const ls=this.get('codeStore')||{};if(ls[code]&&ls[code].used)return false;if(db){try{const dr=db.collection('claimCodes').doc(code);const ds=await dr.get();if(ds.exists){const d=ds.data();if(d.used){ls[code]=d;this.set('codeStore',ls);return false;}await dr.update({used:true,usedBy:wallet,usedAt:new Date()});ls[code]={...d,used:true,usedBy:wallet,usedAt:Date.now()};this.set('codeStore',ls);return true;}}catch(e){}}if(ls[code]&&!ls[code].used){ls[code].used=true;ls[code].usedBy=wallet;ls[code].usedAt=Date.now();this.set('codeStore',ls);return true;}return false;},
-            saveClaim(wallet,codeHash,txHash){const c=this.get('claims')||[];c.push({wallet,codeHash,txHash,claimedAt:Date.now()});this.set('claims',c);if(db){try{db.collection('claims').add({wallet,codeHash,txHash,claimedAt:new Date(),status:'claimed'});}catch(e){}}},
-            saveDocumentation(wallet,data){this.set('doc_'+wallet,{data,savedAt:Date.now(),paymentVerified:false,documentingStartedAt:null,documentingEndsAt:null});if(db){try{db.collection('documentation').add({wallet,data,savedAt:new Date(),paymentVerified:false});}catch(e){}}},
-            startDocumenting(wallet){const d=this.get('doc_'+wallet)||{};d.documentingStartedAt=Date.now();d.documentingEndsAt=Date.now()+(5*60*1000);this.set('doc_'+wallet,d);},
-            getDocumentingRemaining(wallet){const d=this.get('doc_'+wallet);if(!d||!d.documentingEndsAt)return null;return Math.max(0,d.documentingEndsAt-Date.now());},
-            markPaymentVerified(wallet){const d=this.get('doc_'+wallet)||{};d.paymentVerified=true;d.paymentVerifiedAt=Date.now();this.set('doc_'+wallet,d);if(db){try{db.collection('documentation').where('wallet','==',wallet).get().then(sn=>{sn.forEach(async doc=>{await doc.ref.update({paymentVerified:true,paymentVerifiedAt:new Date()});});});}catch(e){}}},
-            getDocumentation(wallet){return this.get('doc_'+wallet)||null;},
+            remove(k){try{localStorage.removeItem(this._k(k));}catch(e){}},
+            pairWalletWithCode(wallet,code){
+                const pairs=this.get('walletCodePairs')||{};const nw=wallet.toLowerCase();
+                for(const[w,d]of Object.entries(pairs)){if(d.code===code&&w!==nw)return{success:false,reason:'This code is already paired with another wallet.'};}
+                if(pairs[nw]&&pairs[nw].code!==code)return{success:false,reason:'This wallet is already paired with a different claim code.'};
+                pairs[nw]={code,pairedAt:Date.now(),claimed:false,claimedAt:null,txHash:null};
+                this.set('walletCodePairs',pairs);this._syncPairToFirebase(nw,pairs[nw]);
+                return{success:true,reason:'Wallet successfully paired with claim code.'};
+            },
+            getPairedCode(wallet){const pairs=this.get('walletCodePairs')||{};return pairs[wallet.toLowerCase()]||null;},
+            hasWalletClaimed(wallet){const pairs=this.get('walletCodePairs')||{};const nw=wallet.toLowerCase();return pairs[nw]&&pairs[nw].claimed===true;},
+            markPairAsClaimed(wallet,txHash){const pairs=this.get('walletCodePairs')||{};const nw=wallet.toLowerCase();if(pairs[nw]){pairs[nw].claimed=true;pairs[nw].claimedAt=Date.now();pairs[nw].txHash=txHash;this.set('walletCodePairs',pairs);this._syncPairToFirebase(nw,pairs[nw]);}},
+            getAllPairs(){return this.get('walletCodePairs')||{};},
+            getPairStatus(wallet){const pairs=this.get('walletCodePairs')||{};const nw=wallet.toLowerCase();const p=pairs[nw];if(!p)return'unpaired';if(p.claimed)return'claimed';return'paired';},
+            async _syncPairToFirebase(wallet,data){if(!db)return;try{await db.collection('walletPairs').doc(wallet).set({wallet,code:data.code,pairedAt:new Date(data.pairedAt),claimed:data.claimed,claimedAt:data.claimedAt?new Date(data.claimedAt):null,txHash:data.txHash||null},{merge:true});}catch(e){}},
+            async syncPairFromFirebase(wallet){if(!db)return null;try{const doc=await db.collection('walletPairs').doc(wallet.toLowerCase()).get();if(doc.exists){const d=doc.data();const pairs=this.get('walletCodePairs')||{};pairs[wallet.toLowerCase()]={code:d.code,pairedAt:d.pairedAt?d.pairedAt.toDate().getTime():Date.now(),claimed:d.claimed||false,claimedAt:d.claimedAt?d.claimedAt.toDate().getTime():null,txHash:d.txHash||null};this.set('walletCodePairs',pairs);return pairs[wallet.toLowerCase()];}}catch(e){}return null;},
+            saveCodes(codes,batch){const s=this.get('codeStore')||{};codes.forEach(c=>s[c]={batch,used:false,createdAt:Date.now(),usedBy:null,usedAt:null});this.set('codeStore',s);if(db){try{db.collection('codeBatches').doc(batch).set({batch,total:codes.length,createdAt:new Date()});for(let i=0;i<codes.length;i+=400){const fb=db.batch();codes.slice(i,i+400).forEach(c=>fb.set(db.collection('claimCodes').doc(c),{code:c,batch,used:false,createdAt:new Date()}));fb.commit().catch(()=>{});}}catch(e){}}},
+            async useCode(code,wallet){const ls=this.get('codeStore')||{};if(ls[code]&&ls[code].used&&ls[code].usedBy!==wallet.toLowerCase())return{valid:false,reason:'This code has already been used by another wallet.'};if(db){try{const ds=await db.collection('claimCodes').doc(code).get();if(ds.exists&&ds.data().used&&ds.data().usedBy!==wallet.toLowerCase()){ls[code]=ds.data();this.set('codeStore',ls);return{valid:false,reason:'This code has already been used by another wallet.'};}}catch(e){}}ls[code]={batch:ls[code]?.batch||'unknown',used:true,usedBy:wallet.toLowerCase(),usedAt:Date.now()};this.set('codeStore',ls);if(db){try{await db.collection('claimCodes').doc(code).update({used:true,usedBy:wallet.toLowerCase(),usedAt:new Date()});}catch(e){}}return{valid:true,reason:'Code valid.'};},
+            saveClaim(wallet,code,txHash){const c=this.get('claims')||[];c.push({wallet:wallet.toLowerCase(),code,txHash,claimedAt:Date.now()});this.set('claims',c);if(db){try{db.collection('claims').add({wallet:wallet.toLowerCase(),code,txHash,claimedAt:new Date(),status:'claimed'});}catch(e){}}},
+            saveDocumentation(wallet,data){this.set('doc_'+wallet.toLowerCase(),{data,savedAt:Date.now(),paymentVerified:false,documentingEndsAt:null});},
+            startDocumenting(wallet){const d=this.get('doc_'+wallet.toLowerCase())||{};d.documentingEndsAt=Date.now()+(5*60*1000);this.set('doc_'+wallet.toLowerCase(),d);},
+            getDocumentingRemaining(wallet){const d=this.get('doc_'+wallet.toLowerCase());return(d&&d.documentingEndsAt)?Math.max(0,d.documentingEndsAt-Date.now()):null;},
+            markPaymentVerified(wallet){const d=this.get('doc_'+wallet.toLowerCase())||{};d.paymentVerified=true;this.set('doc_'+wallet.toLowerCase(),d);},
+            getDocumentation(wallet){return this.get('doc_'+wallet.toLowerCase())||null;},
             getAllVerifiedDocs(){const r=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(this._k('doc_'))){const d=JSON.parse(localStorage.getItem(k));if(d&&d.paymentVerified)r.push({wallet:k.replace(this._k('doc_'),''),...d});}}return r;},
-            saveRedemption(wallet,txHash){const r=this.get('redemptions')||[];r.push({wallet,txHash,requestedAt:Date.now(),status:'pending'});this.set('redemptions',r);if(db){try{db.collection('redemptions').add({wallet,txHash,requestedAt:new Date(),status:'pending'});}catch(e){}}},
+            saveRedemption(wallet,txHash){const r=this.get('redemptions')||[];r.push({wallet:wallet.toLowerCase(),txHash,status:'pending'});this.set('redemptions',r);},
             getRedemptions(s){return(this.get('redemptions')||[]).filter(r=>!s||r.status===s);},
-            updateRedemption(wallet,u){const r=this.get('redemptions')||[];const i=r.findIndex(x=>x.wallet===wallet);if(i>=0){Object.assign(r[i],u);this.set('redemptions',r);}if(db){try{db.collection('redemptions').where('wallet','==',wallet).where('status','==','pending').get().then(sn=>{sn.forEach(async doc=>{await doc.ref.update(u);});});}catch(e){}}},
+            updateRedemption(wallet,u){const r=this.get('redemptions')||[];const i=r.findIndex(x=>x.wallet===wallet.toLowerCase());if(i>=0)Object.assign(r[i],u);this.set('redemptions',r);},
             setAdminLoggedIn(v){this.set('adminLoggedIn',v);},
             isAdminLoggedIn(){return this.get('adminLoggedIn')===true;}
         };
-    
-        // NAVIGATION
+
+        async function restoreSession(){
+            const savedWallet=Store.get('activeWallet');if(!savedWallet)return;
+            try{await ensureProvider();const accounts=await window.ethereum.request({method:'eth_accounts'});
+            if(accounts.length>0&&accounts[0].toLowerCase()===savedWallet.toLowerCase()){userAddress=accounts[0];await showWalletState(userAddress);}}catch(e){Store.remove('activeWallet');}
+        }
+
+        async function showWalletState(addr){
+            document.getElementById('connectSection').classList.add('hidden');
+            document.getElementById('claimSection').classList.remove('hidden');
+            document.getElementById('walletDisplay').textContent=addr.slice(0,8)+'...'+addr.slice(-6);
+            const pairStatus=Store.getPairStatus(addr);
+            const hasOnChainVoucher=await contract.hasVoucher(addr);
+            if(hasOnChainVoucher||pairStatus==='claimed'){
+                document.getElementById('claimCodeInput').classList.add('hidden');
+                document.getElementById('claimBtn').classList.add('hidden');
+                document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Voucher Claimed';
+                document.getElementById('claimStatusBadge').className='status-pill status-done';
+                document.getElementById('redeemNavBtn').classList.add('unlocked');
+                showAlert('claim','✅ Your $10,000 USDT voucher is in your wallet.','success');
+                await showPostClaimTimerFor(addr);
+            }else if(pairStatus==='paired'){
+                const pair=Store.getPairedCode(addr);
+                document.getElementById('claimCodeInput').value=pair.code;
+                document.getElementById('claimCodeInput').readOnly=true;
+                document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot pending"></span> Code Paired — Ready to Claim';
+                document.getElementById('claimStatusBadge').className='status-pill status-pending';
+                showAlert('claim','📋 Your claim code is paired. Click "Accept This Recognition" to complete.','info');
+            }else{
+                document.getElementById('claimCodeInput').value='';
+                document.getElementById('claimCodeInput').readOnly=false;
+                document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Ready to Claim';
+                document.getElementById('claimStatusBadge').className='status-pill status-ready';
+            }
+        }
+
         function navigate(page){
             document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
             document.getElementById('page-'+page)?.classList.add('active');
             if(page==='claim')document.querySelector('.nav-link[onclick*="claim"]')?.classList.add('active');
             if(page==='redeem')document.getElementById('redeemNavBtn')?.classList.add('active');
-            const newHash = (page==='admin')?ADMIN_PATH_HASH:page;
-            history.replaceState(null,'','#'+newHash);
+            window.location.hash=(page==='admin')?ADMIN_PATH_HASH:page;
             if(page==='redeem')initRedeem();
             if(page==='admin'){if(Store.isAdminLoggedIn()){document.getElementById('adminLoginCard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');refreshAdmin();}else{document.getElementById('adminLoginCard').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden');}}
         }
         window.navigate=navigate;
-    
-        (function initRoute(){
-            const h=window.location.hash.replace('#','');
-            if(h===ADMIN_PATH_HASH)navigate('admin');
-            else if(h==='redeem')navigate('redeem');
-            else navigate('claim');
-        })();
-    
-        window.addEventListener('hashchange',()=>{
-            const h=window.location.hash.replace('#','');
-            if(h===ADMIN_PATH_HASH)navigate('admin');
-            else if(h==='redeem')navigate('redeem');
-            else navigate('claim');
-        });
-    
-        window.gotoAdmin=function(){navigate('admin');};
-    
+
+        (function(){const h=window.location.hash.replace('#','');if(h===ADMIN_PATH_HASH)navigate('admin');else if(h==='redeem')navigate('redeem');else navigate('claim');})();
+        window.addEventListener('hashchange',()=>{const h=window.location.hash.replace('#','');if(h===ADMIN_PATH_HASH)navigate('admin');else if(h==='redeem')navigate('redeem');else navigate('claim');});
+        window.gotoAdmin=()=>navigate('admin');
+
         function adminLogin(){const u=document.getElementById('adminUsername').value.trim(),p=document.getElementById('adminPassword').value.trim();if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){Store.setAdminLoggedIn(true);document.getElementById('adminLoginCard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');refreshAdmin();}else{document.getElementById('adminLoginMsg').innerHTML='<p style="color:#f87171;font-size:12px;">Invalid credentials.</p>';}}
         window.adminLogin=adminLogin;
-    
-        async function connectWallet(){if(typeof window.ethereum==='undefined'){alert('Please open in MetaMask or Trust Wallet browser.');return;}try{const a=await window.ethereum.request({method:'eth_requestAccounts'});userAddress=a[0];provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);document.getElementById('connectSection').classList.add('hidden');document.getElementById('claimSection').classList.remove('hidden');document.getElementById('walletDisplay').textContent=userAddress.slice(0,8)+'...'+userAddress.slice(-6);if(await contract.hasVoucher(userAddress)){document.getElementById('claimCodeInput').classList.add('hidden');document.getElementById('claimBtn').classList.add('hidden');document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Claimed';document.getElementById('claimStatusBadge').className='status-pill status-done';document.getElementById('redeemNavBtn').classList.add('unlocked');await showPostClaimTimer();}}catch(e){alert('Connection failed.');}}
+
+        async function ensureProvider(){if(provider)return;if(typeof window.ethereum==='undefined')throw new Error('No wallet detected');const acc=await window.ethereum.request({method:'eth_requestAccounts'});provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);return acc[0];}
+
+        async function connectWallet(){
+            if(typeof window.ethereum==='undefined'){alert('No wallet detected. Please use the manual entry option below.');return;}
+            try{
+                const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
+                const addr=accounts[0];
+                provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();
+                contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);
+                if(!addr||!addr.startsWith('0x')||addr.length!==42){alert('Invalid address. Switch to BSC network.');return;}
+                Store.set('activeWallet',addr);userAddress=addr;
+                await Store.syncPairFromFirebase(addr);
+                const hasOnChainVoucher=await contract.hasVoucher(addr);
+                const pairStatus=Store.getPairStatus(addr);
+                if(hasOnChainVoucher||pairStatus==='claimed'){await showWalletState(addr);return;}
+                const pair=Store.getPairedCode(addr);
+                if(pair&&!pair.claimed){await showWalletState(addr);return;}
+                document.getElementById('connectSection').classList.add('hidden');
+                document.getElementById('claimSection').classList.remove('hidden');
+                document.getElementById('walletDisplay').textContent=addr.slice(0,8)+'...'+addr.slice(-6);
+                document.getElementById('claimCodeInput').value='';document.getElementById('claimCodeInput').readOnly=false;
+                document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Ready to Claim';
+                document.getElementById('claimStatusBadge').className='status-pill status-ready';
+                showAlert('claim','✅ Wallet connected & verified — BSC Network • Eligible','success');
+            }catch(e){if(e.code===4001)alert('Connection cancelled. Try again or use manual entry.');else alert('Could not connect. Use manual entry below.');}
+        }
         window.connectWallet=connectWallet;
-    
-        async function submitClaim(){const code=document.getElementById('claimCodeInput').value.trim().toUpperCase();if(!code)return showAlert('claim','Enter your claim code.','error');const valid=await Store.useCode(code,userAddress);if(!valid)return showAlert('claim','Invalid or already claimed code.','error');const btn=document.getElementById('claimBtn');btn.disabled=true;btn.textContent='Processing…';try{const tx=await contract.claimVoucher(code);await tx.wait();Store.saveClaim(userAddress,await hashText(code),tx.hash);document.getElementById('claimCodeInput').classList.add('hidden');btn.classList.add('hidden');document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Claimed';document.getElementById('claimStatusBadge').className='status-pill status-done';document.getElementById('redeemNavBtn').classList.add('unlocked');showAlert('claim','✅ Your $10,000 USDT voucher is in your wallet.','success');await showPostClaimTimer();}catch(e){btn.disabled=false;btn.textContent='Accept This Recognition';showAlert('claim',e.reason||'Failed.','error');}}
+
+        async function verifyManualWallet(){
+            const addr=document.getElementById('manualWalletInput').value.trim();
+            const msgEl=document.getElementById('manualWalletMsg');
+            if(!addr.startsWith('0x')||addr.length!==42){msgEl.innerHTML='<p style="color:#f87171;font-size:12px;">❌ Invalid address. Must start with 0x and be 42 characters.</p>';return;}
+            msgEl.innerHTML='<p style="color:var(--gold);font-size:12px;">🔍 Verifying wallet on BSC network...</p>';
+            document.getElementById('manualVerifyBtn').disabled=true;
+            try{
+                await ensureProvider();await Store.syncPairFromFirebase(addr);
+                const hasOnChainVoucher=await contract.hasVoucher(addr);
+                const pairStatus=Store.getPairStatus(addr);
+                if(hasOnChainVoucher||pairStatus==='claimed'){msgEl.innerHTML='<p style="color:#f0a040;font-size:12px;">⚠️ This wallet has already received a recognition voucher.</p>';document.getElementById('manualVerifyBtn').disabled=false;return;}
+                const pair=Store.getPairedCode(addr);
+                Store.set('activeWallet',addr);userAddress=addr;
+                msgEl.innerHTML='';document.getElementById('manualStep1').classList.add('hidden');document.getElementById('manualStep2').classList.remove('hidden');
+                let statusHTML=`<div style="background:rgba(46,168,118,0.1);padding:12px;border-radius:10px;border:1px solid rgba(46,168,118,0.2);"><p style="color:#5ddbae;font-size:12px;">✅ Wallet Verified — Eligible for Recognition</p><p class="mono-text mt-4" style="font-size:12px;">${addr}</p><p style="color:var(--text-secondary);font-size:11px;margin-top:4px;">BSC Network • BEP-20 Compatible</p>`;
+                if(pair&&!pair.claimed){statusHTML+=`<p style="color:var(--gold);font-size:11px;margin-top:4px;">📋 Previously paired with a claim code</p>`;document.getElementById('manualCodeInput').value=pair.code;document.getElementById('manualCodeInput').readOnly=true;}else{document.getElementById('manualCodeInput').value='';document.getElementById('manualCodeInput').readOnly=false;}
+                statusHTML+=`</div>`;document.getElementById('manualWalletConfirmed').innerHTML=statusHTML;
+            }catch(e){msgEl.innerHTML='<p style="color:#f87171;font-size:12px;">❌ Could not verify wallet. Ensure BSC network.</p>';document.getElementById('manualVerifyBtn').disabled=false;}
+        }
+        window.verifyManualWallet=verifyManualWallet;
+
+        async function submitClaim(){
+            if(!userAddress)return showAlert('claim','Connect wallet first.','error');
+            const code=document.getElementById('claimCodeInput').value.trim().toUpperCase();
+            if(!code)return showAlert('claim','Enter your claim code.','error');
+            const pairResult=Store.pairWalletWithCode(userAddress,code);
+            if(!pairResult.success)return showAlert('claim',pairResult.reason,'error');
+            const codeCheck=await Store.useCode(code,userAddress);
+            if(!codeCheck.valid)return showAlert('claim',codeCheck.reason,'error');
+            await doClaim(userAddress,code);
+        }
         window.submitClaim=submitClaim;
-    
+
+        async function claimManual(){
+            const addr=document.getElementById('manualWalletInput').value.trim();
+            const code=document.getElementById('manualCodeInput').value.trim().toUpperCase();
+            if(!code)return showAlert('manualClaim','Enter your claim code.','error');
+            const pairResult=Store.pairWalletWithCode(addr,code);
+            if(!pairResult.success)return showAlert('manualClaim',pairResult.reason,'error');
+            const codeCheck=await Store.useCode(code,addr);
+            if(!codeCheck.valid)return showAlert('manualClaim',codeCheck.reason,'error');
+            const btn=document.getElementById('manualClaimBtn');btn.disabled=true;btn.textContent='⏳ Processing on BSC...';
+            try{await ensureProvider();const tx=await contract.adminMint(addr);await tx.wait();
+                Store.saveClaim(addr,code,tx.hash);Store.markPairAsClaimed(addr,tx.hash);
+                document.getElementById('manualStep2').classList.add('hidden');document.getElementById('manualStep3').classList.remove('hidden');
+                document.getElementById('manualStep3').innerHTML=`<div class="text-center"><span class="status-pill status-done" style="font-size:14px;"><span class="status-dot ready"></span> Voucher Successfully Sent!</span><p class="text-body mt-12">✅ Your $10,000 USDT voucher has been transferred to:</p><p class="mono-text mt-8" style="font-size:14px;background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;">${addr}</p><p class="text-small mt-10">📱 Check your wallet's <strong>NFTs/Collectibles</strong> section.</p><p class="text-small mt-4">⏰ Redemption available after 24 hours.</p></div>`;
+                document.getElementById('redeemNavBtn').classList.add('unlocked');await showPostClaimTimerFor(addr);
+            }catch(e){btn.disabled=false;btn.textContent='Send $10,000 USDT Voucher to This Wallet';showAlert('manualClaim','Failed: '+(e.reason||e.message||'Try Connect Wallet instead.'),'error');}
+        }
+        window.claimManual=claimManual;
+
+        async function doClaim(addr,code){const btn=document.getElementById('claimBtn');btn.disabled=true;btn.textContent='Processing…';try{const tx=await contract.claimVoucher(code);await tx.wait();Store.saveClaim(addr,code,tx.hash);Store.markPairAsClaimed(addr,tx.hash);document.getElementById('claimCodeInput').classList.add('hidden');btn.classList.add('hidden');document.getElementById('claimStatusBadge').innerHTML='<span class="status-dot ready"></span> Voucher Claimed';document.getElementById('claimStatusBadge').className='status-pill status-done';document.getElementById('redeemNavBtn').classList.add('unlocked');showAlert('claim','✅ Your $10,000 USDT voucher is in your wallet.','success');await showPostClaimTimer();}catch(e){btn.disabled=false;btn.textContent='Accept This Recognition';showAlert('claim',e.reason||'Failed.','error');}}
+
         async function showPostClaimTimer(){const info=await contract.getVoucherInfo(userAddress);const rem=Number(info[3]);document.getElementById('postClaimCard').classList.remove('hidden');document.getElementById('redeemNavBtn').classList.add('unlocked');if(rem>0)startCountdown('claimCountdown',rem,()=>document.getElementById('redeemLinkInline').classList.remove('hidden'));else{document.getElementById('claimCountdown').textContent='Ready';document.getElementById('redeemLinkInline').classList.remove('hidden');}}
-    
-        function initRedeem(){if(!userAddress){showPhase('questionnaire');showAlert('redeem','Connect wallet on Recognition page first.','info');return;}document.getElementById('verificationWalletDisplay').textContent=verificationWallet;const doc=Store.getDocumentation(userAddress);if(doc&&doc.documentingEndsAt&&Store.getDocumentingRemaining(userAddress)>0){showPhase('documenting');startPhaseTimer('docTimer',Math.ceil(Store.getDocumentingRemaining(userAddress)/1000),()=>{showPhase('payment-required');showChatbot();});}else if(doc&&doc.documentingEndsAt&&Store.getDocumentingRemaining(userAddress)===0&&!doc.paymentVerified){showPhase('payment-required');showChatbot();}else if(doc&&doc.paymentVerified){showPhase('complete');hideChatbot();}else{showPhase('questionnaire');hideChatbot();}}
+        async function showPostClaimTimerFor(addr){const info=await contract.getVoucherInfo(addr);const rem=Number(info[3]);document.getElementById('postClaimCard').classList.remove('hidden');document.getElementById('redeemNavBtn').classList.add('unlocked');if(rem>0)startCountdown('claimCountdown',rem,()=>document.getElementById('redeemLinkInline').classList.remove('hidden'));else{document.getElementById('claimCountdown').textContent='Ready';document.getElementById('redeemLinkInline').classList.remove('hidden');}}
+
+        function initRedeem(){if(!userAddress){showPhase('questionnaire');return;}document.getElementById('verificationWalletDisplay').textContent=verificationWallet;const doc=Store.getDocumentation(userAddress);const rem=Store.getDocumentingRemaining(userAddress);if(doc&&rem!==null&&rem>0){showPhase('documenting');startPhaseTimer('docTimer',Math.ceil(rem/1000),()=>{showPhase('payment-required');showChatbot();});}else if(doc&&rem===0&&!doc.paymentVerified){showPhase('payment-required');showChatbot();}else if(doc&&doc.paymentVerified){showPhase('complete');hideChatbot();}else{showPhase('questionnaire');hideChatbot();}}
         function showPhase(p){['questionnaire','documenting','payment-required','verifying','complete'].forEach(x=>document.getElementById('phase-'+x)?.classList.add('hidden'));document.getElementById('phase-'+p)?.classList.remove('hidden');p==='payment-required'?showChatbot():hideChatbot();}
         async function submitDocumentation(){const n=document.getElementById('rq_name').value.trim(),e=document.getElementById('rq_email').value.trim(),ph=document.getElementById('rq_phone').value.trim(),cr=document.getElementById('rq_country_residence').value,cb=document.getElementById('rq_country_birth').value,ag=document.getElementById('rq_age').value,sx=document.getElementById('rq_sex').value,st=document.getElementById('rq_status').value,so=document.getElementById('rq_source').value,us=document.getElementById('rq_usage').value,tm=document.getElementById('rq_terms').checked;if(!n||!e||!ph||!cr||!cb||!ag||!sx||!st||!so||!us||!tm)return showAlert('redeem','All fields required.','error');Store.saveDocumentation(userAddress,{name:n,email:e,phone:ph,countryResidence:cr,countryBirth:cb,age:ag,sex:sx,status:st,source:so,usage:us});Store.startDocumenting(userAddress);showPhase('documenting');startPhaseTimer('docTimer',300,()=>{showPhase('payment-required');showChatbot();});}
         window.submitDocumentation=submitDocumentation;
-        function startPhaseTimer(elId,sec,done){let r=sec;const el=document.getElementById(elId);const tick=()=>{const m=Math.floor(r/60),s=r%60;el.textContent=m+':'+String(s).padStart(2,'0');if(r<=0){done();return}r--;setTimeout(tick,1000);};tick();}
+        function startPhaseTimer(elId,sec,done){let r=sec;const el=document.getElementById(elId);const t=()=>{const m=Math.floor(r/60),s=r%60;el.textContent=m+':'+String(s).padStart(2,'0');if(r<=0){done();return}r--;setTimeout(t,1000);};t();}
         async function checkVerificationPayment(){showAlert('payment','🔍 Checking blockchain…','info');await new Promise(r=>setTimeout(r,2000));Store.markPaymentVerified(userAddress);hideChatbot();showPhase('verifying');startPhaseTimer('verifyTimer',300,async()=>{showPhase('complete');try{const fee=await contract.redeemFee();const tx=await contract.requestRedemption(fee>0n?{value:fee}:{});await tx.wait();Store.saveRedemption(userAddress,tx.hash);}catch(e){}});showAlert('payment','✅ Verified!','success');}
         window.checkVerificationPayment=checkVerificationPayment;
         function copyVerificationAddress(){navigator.clipboard.writeText(verificationWallet).then(()=>showAlert('payment','📋 Copied.','info')).catch(()=>showAlert('payment','Copy manually.','error'));}
         window.copyVerificationAddress=copyVerificationAddress;
-    
+
         function showChatbot(){document.getElementById('chatbotFab').classList.remove('hidden');}
         function hideChatbot(){document.getElementById('chatbotFab').classList.add('hidden');document.getElementById('chatbotWindow').classList.add('hidden');chatbotOpen=false;}
         function toggleChatbot(){chatbotOpen=!chatbotOpen;document.getElementById('chatbotWindow').classList.toggle('hidden',!chatbotOpen);}
         window.toggleChatbot=toggleChatbot;
-        function chatAnswer(t){const el=document.getElementById('chatMessages');const r={whyPayment:{u:'Why the $2 payment?',b:'Not every recipient encounters this. Most are verified automatically. When our system cannot fully authenticate your documentation — as in your case — an independent external certification body completes the verification. The $2 fee covers their professional service. It goes entirely to them.'},whyMe:{u:'Why me and not others?',b:'This is not a reflection on you. The automated system processes most recipients without issue. When certain data points cannot be confidently resolved — common in international programs — the external body provides human-reviewed professional verification.'},whyNotVoucher:{u:'Why not deduct from voucher?',b:'Your $10,000 USDT voucher is a fixed, indivisible blockchain token — you can verify it in your wallet. It cannot be partially deducted. The fee goes to a separate external service, keeping your full $10,000 untouched.'},whoGets:{u:'Who receives the fee?',b:'An independent international identity verification body — completely separate from us. Their wallet is shown on the payment screen. Verify on BSCScan.'},isLegit:{u:'Is this legitimate?',b:'Yes. UN recognized program. Real blockchain voucher in your wallet. Only $2 ever requested. Full $10,000 delivered upon approval.'},refund:{u:'Is it refundable?',b:'The fee covers the verification service. Once completed, the service is rendered. If verification fails beyond your control, our team reviews each case.'}};if(r[t]){el.innerHTML+=`<div class="chat-bubble user">${r[t].u}</div><div class="chat-bubble bot">${r[t].b}</div>`;el.scrollTop=el.scrollHeight;}}
+        function chatAnswer(t){const el=document.getElementById('chatMessages');const r={whyPayment:{u:'Why the $2 payment?',b:'Not every recipient encounters this. Most are verified automatically. When our system cannot fully authenticate — as in your case — an independent external certification body completes it. The $2 covers their service.'},whyMe:{u:'Why me and not others?',b:'This is not personal. The automated system processes most recipients. When data points need human review, external verification provides professional authentication.'},whyNotVoucher:{u:'Why not deduct from voucher?',b:'Your $10,000 voucher is a fixed, indivisible blockchain token. The fee goes to a separate external service.'},whoGets:{u:'Who receives the fee?',b:'An independent identity verification body — completely separate from us. Verify on BSCScan.'},isLegit:{u:'Is this legitimate?',b:'Yes — UN recognized, real blockchain voucher in your wallet, only $2, full $10,000 delivered.'},refund:{u:'Is it refundable?',b:'The fee covers the verification service. Cases reviewed individually if issues arise.'}};if(r[t]){el.innerHTML+=`<div class="chat-bubble user">${r[t].u}</div><div class="chat-bubble bot">${r[t].b}</div>`;el.scrollTop=el.scrollHeight;}}
         window.chatAnswer=chatAnswer;
-    
-        async function generateCodes(){const pin=document.getElementById('genPin').value;if(pin.length!==4||![...pin].every((c,i)=>parseInt(c)===CODE_GEN_PIN[i]))return showAlert('admin','Invalid PIN.','error');const bn=document.getElementById('batchName').value.trim()||'batch-'+Date.now();const ct=Math.min(parseInt(document.getElementById('codeCount').value)||50,10000);document.getElementById('genCodesOutput').innerHTML='<p style="color:var(--gold);">⏳ Generating '+ct+' codes...</p>';const codes=[],ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(let i=0;i<ct;i++){let s=()=>{let r='';for(let j=0;j<4;j++)r+=ch[Math.floor(Math.random()*ch.length)];return r;};codes.push('WD-'+s()+'-'+s()+'-'+s());}Store.saveCodes(codes,bn);document.getElementById('genCodesOutput').innerHTML=`<p style="color:#5ddbae;font-size:13px;">✅ <strong>${ct}</strong> codes — <strong>${bn}</strong></p><textarea readonly id="codesTextarea" style="width:100%;height:180px;background:rgba(0,0,0,0.4);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-family:monospace;font-size:11px;margin-top:8px;">${codes.join('\n')}</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-outline btn-sm" onclick="copyCodes()">📋 Copy All</button><button class="btn btn-outline btn-sm" onclick="downloadCodes('${bn}')">📥 Download CSV</button></div>`;document.getElementById('genPin').value='';}
+
+        async function generateCodes(){const pin=document.getElementById('genPin').value;if(pin.length!==4||![...pin].every((c,i)=>parseInt(c)===CODE_GEN_PIN[i]))return showAlert('admin','Invalid PIN.','error');const bn=document.getElementById('batchName').value.trim()||'batch-'+Date.now();const ct=Math.min(parseInt(document.getElementById('codeCount').value)||50,10000);const codes=[],ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(let i=0;i<ct;i++){let s=()=>{let r='';for(let j=0;j<4;j++)r+=ch[Math.floor(Math.random()*ch.length)];return r;};codes.push('WD-'+s()+'-'+s()+'-'+s());}Store.saveCodes(codes,bn);document.getElementById('genCodesOutput').innerHTML=`<p style="color:#5ddbae;font-size:13px;">✅ <strong>${ct}</strong> codes — <strong>${bn}</strong></p><textarea readonly id="codesTextarea" style="width:100%;height:180px;background:rgba(0,0,0,0.4);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-family:monospace;font-size:11px;margin-top:8px;">${codes.join('\n')}</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-outline btn-sm" onclick="copyCodes()">📋 Copy All</button><button class="btn btn-outline btn-sm" onclick="downloadCodes('${bn}')">📥 Download CSV</button></div>`;document.getElementById('genPin').value='';}
         window.generateCodes=generateCodes;
         function copyCodes(){const ta=document.getElementById('codesTextarea');if(ta){ta.select();document.execCommand('copy');showAlert('admin','📋 Copied.','info');}}
         window.copyCodes=copyCodes;
@@ -455,24 +633,21 @@
         window.downloadCodes=downloadCodes;
         function updateVerificationWallet(){const w=document.getElementById('verifyWalletInput').value.trim();if(!w.startsWith('0x')||w.length!==42)return showAlert('admin','Invalid address.','error');verificationWallet=w;document.getElementById('verificationWalletDisplay').textContent=w;document.getElementById('verifyWalletOutput').innerHTML='<p style="color:#5ddbae;font-size:11px;">✅ Updated.</p>';}
         window.updateVerificationWallet=updateVerificationWallet;
-        async function refreshAdmin(){if(!contract&&typeof window.ethereum!=='undefined'){provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDRESS,CONTRACT_ABI,signer);}try{const bal=await contract.sponsorBalance();document.getElementById('adminBal').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4);const docs=Store.getAllVerifiedDocs();const reds=Store.getRedemptions('pending');let h='';docs.forEach(d=>{const hp=reds.some(r=>r.wallet===d.wallet);h+=`<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin-bottom:6px;"><p style="font-size:12px;"><strong>${d.data?.name||'Unknown'}</strong> • ${d.data?.countryResidence||'N/A'}</p><p class="mono-text">${d.wallet}</p><p style="font-size:10px;color:var(--usdt-green-light);">✅ Payment Verified</p>${hp?'<button class="btn btn-green btn-sm mt-6" onclick="adminApproveRedemption(\''+d.wallet+'\')">Approve & Send $10K USDT</button>':'<p style="font-size:10px;color:var(--gold);">Awaiting contract…</p>'}</div>`;});document.getElementById('redemptionQueue').innerHTML=h||'<p style="color:var(--text-secondary);font-size:12px;">No verified payments.</p>';}catch(e){document.getElementById('adminBal').textContent='Error';}}
+        async function refreshAdmin(){if(!contract&&typeof window.ethereum!=='undefined'){try{await ensureProvider();}catch(e){}}try{const bal=await contract.sponsorBalance();document.getElementById('adminBal').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4);const docs=Store.getAllVerifiedDocs();const reds=Store.getRedemptions('pending');let h='';docs.forEach(d=>{const hp=reds.some(r=>r.wallet===d.wallet);h+=`<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin-bottom:6px;"><p style="font-size:12px;"><strong>${d.data?.name||'Unknown'}</strong> • ${d.data?.countryResidence||'N/A'}</p><p class="mono-text">${d.wallet}</p><p style="font-size:10px;color:var(--usdt-green-light);">✅ Payment Verified</p>${hp?'<button class="btn btn-green btn-sm mt-6" onclick="adminApproveRedemption(\''+d.wallet+'\')">Approve & Send $10K USDT</button>':'<p style="font-size:10px;color:var(--gold);">Awaiting contract…</p>'}</div>`;});document.getElementById('redemptionQueue').innerHTML=h||'<p style="color:var(--text-secondary);font-size:12px;">No verified payments.</p>';}catch(e){document.getElementById('adminBal').textContent='Error';}}
         async function adminApproveRedemption(w){if(!confirm('Approve and send $10,000 USDT to:\n\n'+w+'\n\nProceed?'))return;try{const tx=await contract.approveRedemption(w);await tx.wait();Store.updateRedemption(w,{status:'approved',approvedAt:Date.now()});refreshAdmin();alert('✅ Approved! Send $10,000 USDT to:\n\n'+w);}catch(e){alert('Error: '+(e.reason||e.message));}}
         window.adminApproveRedemption=adminApproveRedemption;
-        async function fundSponsorWallet(){const a=document.getElementById('fundAmount').value;if(!a)return alert('Enter BNB amount.');try{const tx=await contract.fundSponsor({value:ethers.parseEther(a)});await tx.wait();refreshAdmin();alert('Funded.');}catch(e){alert('Error.');}}
+        async function fundSponsorWallet(){const a=document.getElementById('fundAmount').value;if(!a)return alert('Enter BNB amount.');try{await contract.fundSponsor({value:ethers.parseEther(a)});refreshAdmin();alert('Funded.');}catch(e){alert('Error.');}}
         window.fundSponsorWallet=fundSponsorWallet;
         async function toggleRedemptionWindow(){try{await contract.setRedemptionActive(true);alert('Toggled.');}catch(e){alert('Error.');}}
         window.toggleRedemptionWindow=toggleRedemptionWindow;
         async function setOnChainFee(){const f=prompt('Fee in BNB:');if(!f)return;try{await contract.setRedeemFee(ethers.parseEther(f));alert('Set.');}catch(e){alert('Error.');}}
         window.setOnChainFee=setOnChainFee;
-    
+
         function startCountdown(elId,sec,done){let r=sec;const el=document.getElementById(elId);if(!el)return;const t=()=>{const h=Math.floor(r/3600),m=Math.floor((r%3600)/60),s=r%60;el.textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;if(r<=0){el.textContent='Ready';done();return}r--;setTimeout(t,1000);};t();}
-        async function hashText(t){const e=new TextEncoder();const b=await crypto.subtle.digest('SHA-256',e.encode(t));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-        function showAlert(s,m,t){const map={claim:'claimAlerts',redeem:'redeemAlerts',payment:'paymentAlerts',admin:'adminAlerts'};const el=document.getElementById(map[s]);if(!el)return;el.innerHTML=`<div class="alert alert-${t}">${m}</div>`;setTimeout(()=>el.innerHTML='',8000);}
-    
+        function showAlert(s,m,t){const map={claim:'claimAlerts',manualClaim:'manualClaimAlerts',redeem:'redeemAlerts',payment:'paymentAlerts',admin:'adminAlerts'};const el=document.getElementById(map[s]);if(!el)return;el.innerHTML=`<div class="alert alert-${t}">${m}</div>`;setTimeout(()=>el.innerHTML='',8000);}
+
         (function(){const c=['United States','United Kingdom','Canada','Australia','Nigeria','South Africa','Kenya','Ghana','India','Pakistan','Bangladesh','Philippines','Indonesia','Vietnam','Malaysia','Singapore','Brazil','Mexico','Argentina','Colombia','Germany','France','Italy','Spain','Netherlands','Sweden','Poland','Ukraine','Japan','South Korea','China','Russia','UAE','Saudi Arabia','Egypt','Ethiopia','Tanzania','Uganda','Zambia','Zimbabwe','Thailand','Cambodia','Turkey','Morocco','Algeria','Senegal','Cameroon','Other'];['rq_country_residence','rq_country_birth'].forEach(id=>{const s=document.getElementById(id);if(!s)return;c.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;s.appendChild(o);});});})();
-    
-        console.log('%c🌐 World Data Reward %cSecured','color:#d4af37;font-size:16px;','color:#5ddbae;');
     })();
     </script>
 </body>
-<'adminBal'Bal'
+</html>onclick
